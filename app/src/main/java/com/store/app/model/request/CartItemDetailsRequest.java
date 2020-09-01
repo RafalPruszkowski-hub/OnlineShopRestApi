@@ -1,0 +1,13 @@
+package com.store.app.model.request;
+
+public class CartItemDetailsRequest {
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+}
