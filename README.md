@@ -1,11 +1,21 @@
 # OnlineShopRestApi
 REST API for a shop project using Spring (Boot, MVC, JPA) MySQL database and Hibernate. In the future I'll implement Spring Security and Front-End.
 
-To use this REST-API you will need a postman.
+###### Before starting the app please use this commands in you mysql database as root user:
+
+CREATE DATABASE shop;
+CREATE USER 'shop_user'@localhost IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON shop.* TO 'shop_user'@'localhost';
+
+###### If you get error while running this app please use also this command
+
+SET GLOBAL time_zone = '+3:00'
+
+###### To use this REST-API you will need a postman.
 
 In PostManCommands folder you have ready to use import file with pre prepared commands.
 
-###### HTTP Endpoints:
+## HTTP Endpoints:
 
 **HTTP REQUEST TYPE || END-POINT || DECRIPTION**
 
