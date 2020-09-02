@@ -1,5 +1,5 @@
 # OnlineShopRestApi
-REST API for a shop project using Spring (Boot, MVC, JPA) MySQL database and Hibernate. In the future I'll implement Spring Security and Front-End.
+REST API for a shop project using Spring (Boot, MVC, JPA) MySQL database and Hibernate. In the future I'll implement Spring Security and Front-End. Please note that this project is still in early development stage.
 
 ###### Before starting the app please use this commands in you mysql database as root user:
 
