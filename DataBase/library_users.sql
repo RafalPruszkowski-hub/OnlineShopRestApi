@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: library
+-- Host: 127.0.0.1    Database: shop
 -- ------------------------------------------------------
 -- Server version	8.0.21
 

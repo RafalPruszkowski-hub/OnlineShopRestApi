@@ -56,12 +56,12 @@ public class ProductController {
 
         return returnValue;
     }
-
+    /*
     @DeleteMapping(path = "/{id}")
     public void deleteProduct(@PathVariable(name = "id") String id) {
         productService.deleteProduct(id);
     }
-
+    */
     @GetMapping
     public List<ProductResponseModel> getProducts(
             @RequestParam(value = "page", defaultValue = "0") int page,

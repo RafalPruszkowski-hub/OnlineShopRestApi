@@ -9,9 +9,12 @@ CREATE USER 'shop_user'@localhost IDENTIFIED BY '123';
 
 GRANT ALL PRIVILEGES ON shop.* TO 'shop_user'@'localhost';
 
+Now run all sql files connected in database folder for shop database.
+
 ###### If you get error while running this app please use also this command
 
 SET GLOBAL time_zone = '+3:00'
+
 
 ###### To use this REST-API you will need a postman.
 

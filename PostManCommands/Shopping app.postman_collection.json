@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5ebea239-fa83-435a-97c7-51406c2f3509",
+		"_postman_id": "c3335018-0221-4d8c-bfa7-762bee552aea",
 		"name": "Shopping app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,7 +26,7 @@
 					"raw": "{\"quantity\":\"3\"}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/8733f605-206e-449a-bd79-5bc124d3d55f/products/cbf1d681-25e4-4a98-a208-59555962853a",
+					"raw": "http://localhost:8080/users/8733f605-206e-449a-bd79-5bc124d3d55f/products/a388f849-29c3-4331-86b8-9815c7ad7fef",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -36,7 +36,7 @@
 						"users",
 						"8733f605-206e-449a-bd79-5bc124d3d55f",
 						"products",
-						"cbf1d681-25e4-4a98-a208-59555962853a"
+						"a388f849-29c3-4331-86b8-9815c7ad7fef"
 					]
 				}
 			},
@@ -133,7 +133,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\":\"Michał\",\r\n    \"lastName\":\"Michalak\",\r\n    \"address\":\"ul. szkolna 23\",\r\n    \"city\": \"Warszawa\",\r\n    \"telephone\":\"333333333\",\r\n    \"email\":\"test4@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
+					"raw": "{\r\n    \"firstName\":\"Michał\",\r\n    \"lastName\":\"Michalak\",\r\n    \"address\":\"ul. szkolna 23\",\r\n    \"city\": \"Warszawa\",\r\n    \"telephone\":\"444123444\",\r\n    \"email\":\"test5@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/users",
