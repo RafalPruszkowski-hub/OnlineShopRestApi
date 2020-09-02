@@ -4,7 +4,9 @@ REST API for a shop project using Spring (Boot, MVC, JPA) MySQL database and Hib
 ###### Before starting the app please use this commands in you mysql database as root user:
 
 CREATE DATABASE shop;
+
 CREATE USER 'shop_user'@localhost IDENTIFIED BY '123';
+
 GRANT ALL PRIVILEGES ON shop.* TO 'shop_user'@'localhost';
 
 ###### If you get error while running this app please use also this command
