@@ -4,12 +4,14 @@ import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.CartItemEntity;
 import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.repository.CartItemRepository;
+import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
+import com.store.app.dto.CartItemDtoReturnCreating;
+import com.store.app.model.response.ProductResponseModel;
 import com.store.app.service.CartItemService;
 import com.store.app.service.CartService;
-import com.store.app.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,45 +24,54 @@ public class CartItemServiceImpl implements CartItemService {
     CartItemRepository cartItemRepository;
 
     @Autowired
-    ProductService productService;
-
-    @Autowired
     ProductRepository productRepository;
 
     @Autowired
     CartService cartService;
 
+    @Autowired
+    CartRepository cartRepository;
+
     @Override
-    public CartItemDto createItem(CartItemDto cartItemDto, String publicProductId, String publicUserId) {
+    public CartItemDtoReturnCreating createCartItem(String publicUserId, String publicProductId, CartItemDto cartItemDto) {
+        CartItemDtoReturnCreating returnValue = new CartItemDtoReturnCreating();
 
-        //TODO not allow for multiple time this same product input to one cart
-        //TODO not allow in stock go -1 on product
-        CartItemDto returnValue = new CartItemDto();
-        String publicID = UUID.randomUUID().toString();
-
-        CartEntity cartEntity = new CartEntity();
         CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
-        BeanUtils.copyProperties(cartDto, cartEntity);
+        CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
 
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
 
+        //Check if the record already exist in table and if yes throw runtime exception
+
+        //if(cartEntity.getCartItems().isEmpty()){ } else {
+            for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+                if (cartItemEntity.getProduct().getPublicProductId().equals(publicProductId)) {
+                    throw new RuntimeException("Product already exist in your cart.");
+                }
+            }
+        //}
+
+        //creating entity that will be saved in database
         CartItemEntity cartItemEntity = new CartItemEntity(cartEntity, productEntity);
         BeanUtils.copyProperties(cartItemDto, cartItemEntity);
+        cartItemEntity.setPublicCartItemId(UUID.randomUUID().toString());
 
-        cartItemEntity.setPublicCartItemId(publicID);
+        cartItemEntity.setProductsPrice(productEntity.getProductPrice()
+                                            * cartItemDto.getQuantity());
 
-        double productPrice = cartItemEntity.getQuantity() * cartItemEntity.getProduct().getProductPrice();
-        cartItemEntity.setProductsPrice(productPrice);
+        //saving item into database
+        CartItemEntity storedCartItem = cartItemRepository.save(cartItemEntity);
+        BeanUtils.copyProperties(storedCartItem,returnValue);
 
-        productService.updateProductAmount(cartItemDto.getQuantity(),
-                publicProductId);
 
-        CartItemEntity createdCartItem = cartItemRepository.save(cartItemEntity);
+        //Update total price for the cart that item is added to
+        cartService.updateTotalPrice(publicUserId, cartItemEntity.getProductsPrice());
 
-        cartService.updateTotalPrice(publicUserId, createdCartItem.getProductsPrice());
 
-        BeanUtils.copyProperties(createdCartItem, returnValue);
-        returnValue.setProduct(createdCartItem.getProduct());
+        //Setting properties for return value
+        ProductResponseModel productResponseModel = new ProductResponseModel();
+        BeanUtils.copyProperties(storedCartItem.getProduct(),productResponseModel);
+        returnValue.setProduct(productResponseModel);
 
         return returnValue;
     }

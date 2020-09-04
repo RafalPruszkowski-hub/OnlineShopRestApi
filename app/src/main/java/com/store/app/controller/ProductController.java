@@ -1,9 +1,12 @@
 package com.store.app.controller;
 
 
+import com.store.app.dto.CartDto;
 import com.store.app.dto.ProductDto;
 import com.store.app.model.request.ProductDetailsRequestModel;
+import com.store.app.model.response.CartResponseModel;
 import com.store.app.model.response.ProductResponseModel;
+import com.store.app.service.CartService;
 import com.store.app.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
+    @Autowired
+    CartService cartService;
 
     @PostMapping
     public ProductResponseModel getProduct(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
@@ -56,12 +61,7 @@ public class ProductController {
 
         return returnValue;
     }
-    /*
-    @DeleteMapping(path = "/{id}")
-    public void deleteProduct(@PathVariable(name = "id") String id) {
-        productService.deleteProduct(id);
-    }
-    */
+
     @GetMapping
     public List<ProductResponseModel> getProducts(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -80,4 +80,14 @@ public class ProductController {
         return returnValue;
     }
 
+    @GetMapping
+    @RequestMapping(path = "users/{id}/cart")
+    public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
+        CartResponseModel returnValue = new CartResponseModel();
+
+        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
+        BeanUtils.copyProperties(cartDto, returnValue);
+
+        return returnValue;
+    }
 }

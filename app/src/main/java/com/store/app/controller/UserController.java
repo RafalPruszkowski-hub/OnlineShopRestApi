@@ -1,8 +1,15 @@
 package com.store.app.controller;
 
+import com.store.app.database.repository.CartItemRepository;
+import com.store.app.dto.CartDto;
+import com.store.app.dto.CartItemDto;
 import com.store.app.dto.UserDto;
 import com.store.app.model.request.UserDetailsRequestModel;
+import com.store.app.model.response.CartItemResponseModel;
+import com.store.app.model.response.CartResponseModel;
+import com.store.app.model.response.ProductResponseModel;
 import com.store.app.model.response.UserResponseModel;
+import com.store.app.service.CartService;
 import com.store.app.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +25,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CartService cartService;
 
     @GetMapping(path = "/{id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -77,9 +87,27 @@ public class UserController {
         return returnValue;
     }
 
-    //TODO MAKE IT WORK
-    /*@DeleteMapping(path = "/{id}")
-    public void deleteUser(@PathVariable("id") String publicUserId) {
-        userService.deleteUser(publicUserId);
-    }*/
+    @GetMapping
+    @RequestMapping(path = "{id}/cart")
+    public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
+        CartResponseModel returnValue = new CartResponseModel();
+
+        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
+        BeanUtils.copyProperties(cartDto, returnValue);
+
+        //Creating ResponseModels for products and cartItems to hide database ID
+        List<CartItemResponseModel> returnItems = new ArrayList<>();
+        for(CartItemDto cartItemDto : cartDto.getCartItems()){
+            CartItemResponseModel cartItemResponseModel = new CartItemResponseModel();
+            BeanUtils.copyProperties(cartItemDto,cartItemResponseModel);
+
+            ProductResponseModel productResponseModel = new ProductResponseModel();
+            BeanUtils.copyProperties(cartItemDto.getProduct(),productResponseModel);
+
+            cartItemResponseModel.setProduct(productResponseModel);
+            returnItems.add(cartItemResponseModel);
+        }
+        returnValue.setCartItems(returnItems);
+        return returnValue;
+    }
 }

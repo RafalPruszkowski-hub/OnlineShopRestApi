@@ -5,7 +5,7 @@ import java.util.List;
 public class CartResponseModel {
     private String publicCartId;
     private double totalPrice;
-    private List<ProductResponseModel> cartItems;
+    private List<CartItemResponseModel> cartItems;
 
 
     public String getPublicCartId() {
@@ -25,11 +25,11 @@ public class CartResponseModel {
     }
 
 
-    public List<ProductResponseModel> getCartItems() {
+    public List<CartItemResponseModel> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<ProductResponseModel> cartItems) {
+    public void setCartItems(List<CartItemResponseModel> cartItems) {
         this.cartItems = cartItems;
     }
 

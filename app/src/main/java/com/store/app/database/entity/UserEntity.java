@@ -60,14 +60,17 @@ public class UserEntity implements Serializable {
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
-    private List<CartEntity> cart;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<OrderEntity> orders;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<CartEntity> cart;
 
     public Integer getUserId() {
         return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getPublicUserId() {
@@ -76,10 +79,6 @@ public class UserEntity implements Serializable {
 
     public void setPublicUserId(String publicUserId) {
         this.publicUserId = publicUserId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -136,5 +135,21 @@ public class UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<CartEntity> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<CartEntity> cart) {
+        this.cart = cart;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
     }
 }

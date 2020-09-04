@@ -28,22 +28,16 @@ POST   || http://localhost:8080/users  ||Create new user. **You will need to sen
 
 GET    || http://localhost:8080/users/{publicUserId} || Get user details on publicUserId.
 
-DELETE || http://localhost:8080/users/{publicUserId} || Delete user on publicUserId. **Currently not working**
-
 PUT    || http://localhost:8080/users/{publicUserId} || Edit user on publicUserId.
 
-GET    || http://localhost:8080/users/{publicUserId}/cart || Get currently used cart that will conatint cart items.
+GET    || http://localhost:8080/users/{publicUserId}/cart || Get the currently used cart that will content cart items.
 
-POST   || http://localhost:8080/users/{publicUserId}/cart/order || Create order for user based on current cart. **After that oepration cart will be stored with order and new cart wil be asigned for user to use.**
-
-GET    || http://localhost:8080/users/{publicUserId}/order || Return list of orders that this users created.
+POST   || http://localhost:8080/users/{publicUserId}/cart/order || Create order for user based on a current cart. **After that operation cart will be stored with order and new cart wil be assigned for user to use.**
 
 POST   || http://localhost:8080/users/{publicUserId}/products/{publicProductId} || **It will create new cart item that is stored in lasted created cart for this user**
 
-POST   || http://localhost:8080/products || Create new product. **You will need to send json file, number and email fields have to be unique to create new user.**
+POST   || http://localhost:8080/products || Create a new product. **You will need to send json file, number and email fields have to be unique to create new user.**
 
 GET    || http://localhost:8080/products/{publicProductId} || Get product details on publicProductId
-
-DELETE || http://localhost:8080/products/{publicProductId} || Delete product. **Currently not working**
 
 PUT    || http://localhost:8080/products/{publicProductId} || Edit product. 

@@ -13,14 +13,6 @@ public class OrderDto implements Serializable {
     private CartDto cart;
     private UserDto user;
 
-    public UserDto getUser() {
-        return user;
-    }
-
-    public void setUser(UserDto user) {
-        this.user = user;
-    }
-
     public Integer getOrderId() {
         return orderId;
     }
@@ -41,19 +33,15 @@ public class OrderDto implements Serializable {
         return cart;
     }
 
-    public void setCart(CartDto cartDto) {
-        cart = cartDto;
+    public void setCart(CartDto cart) {
+        this.cart = cart;
     }
 
-    public void setCart(CartEntity cartEntity) {
-        CartDto tmp = new CartDto();
-        BeanUtils.copyProperties(cartEntity, tmp);
-        this.cart = tmp;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUser(UserEntity userEntity) {
-        UserDto tmp = new UserDto();
-        BeanUtils.copyProperties(userEntity, tmp);
-        this.user = tmp;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }

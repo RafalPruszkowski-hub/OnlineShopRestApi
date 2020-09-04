@@ -51,6 +51,21 @@ public class ProductEntity implements Serializable {
     @JsonIgnore
     private List<CartItemEntity> cartItems;
 
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public String getPublicProductId() {
+        return publicProductId;
+    }
+
+    public void setPublicProductId(String publicProductId) {
+        this.publicProductId = publicProductId;
+    }
 
     public String getProductName() {
         return productName;
@@ -84,14 +99,6 @@ public class ProductEntity implements Serializable {
         this.productDescription = productDescription;
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer cartProductId) {
-        this.productId = cartProductId;
-    }
-
     public int getQuantityOfStock() {
         return quantityOfStock;
     }
@@ -108,20 +115,11 @@ public class ProductEntity implements Serializable {
         this.productPrice = productPrice;
     }
 
-
     public List<CartItemEntity> getCartItems() {
         return cartItems;
     }
 
     public void setCartItems(List<CartItemEntity> cartItems) {
         this.cartItems = cartItems;
-    }
-
-    public String getPublicProductId() {
-        return publicProductId;
-    }
-
-    public void setPublicProductId(String publicProductId) {
-        this.publicProductId = publicProductId;
     }
 }

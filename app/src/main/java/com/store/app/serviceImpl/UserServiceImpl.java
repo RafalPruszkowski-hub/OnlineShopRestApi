@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setPublicUserId(publicUserId);
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
-        cartService.createCart(storedUserDetails.getUserId());//creating cart for user while creating new user
+        cartService.createCart(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
 
         UserDto returnValue = new UserDto();
@@ -78,13 +78,6 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(updatedUser, returnValue);
 
         return returnValue;
-    }
-
-    @Override
-    public void deleteUser(String publicUserId) {
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-        if (userEntity == null) throw new RuntimeException("No record found with this id " + publicUserId);
-        userRepository.delete(userEntity);
     }
 
     @Override

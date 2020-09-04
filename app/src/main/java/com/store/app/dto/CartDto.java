@@ -1,5 +1,7 @@
 package com.store.app.dto;
 
+import com.store.app.database.entity.CartItemEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,15 +13,6 @@ public class CartDto implements Serializable {
     private UserDto user;
     private List<CartItemDto> cartItems;
     private OrderDto orderDto;
-
-
-    public UserDto getUser() {
-        return user;
-    }
-
-    public void setUser(UserDto user) {
-        this.user = user;
-    }
 
     public Integer getCartId() {
         return cartId;
@@ -43,6 +36,14 @@ public class CartDto implements Serializable {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     public List<CartItemDto> getCartItems() {

@@ -1,26 +1,25 @@
 package com.store.app.serviceImpl;
 
-import com.store.app.database.entity.CartEntity;
-import com.store.app.database.entity.OrderEntity;
-import com.store.app.database.entity.UserEntity;
+import com.store.app.database.entity.*;
 import com.store.app.database.repository.OrderRepository;
-import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.CartDto;
+import com.store.app.dto.CartItemDto;
 import com.store.app.dto.OrderDto;
+import com.store.app.dto.UserDto;
+import com.store.app.model.response.OrderResponseModel;
 import com.store.app.service.CartService;
 import com.store.app.service.OrderService;
+import com.store.app.service.ProductService;
 import com.store.app.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-
     @Autowired
     OrderRepository orderRepository;
 
@@ -31,60 +30,65 @@ public class OrderServiceImpl implements OrderService {
     UserService userService;
 
     @Autowired
-    UserRepository userRepository;
+    ProductService productService;
 
     @Override
     public OrderDto createOrder(String publicUserId) {
-        //TODO do not allow to use this method multiple time on this same cartId
         OrderDto returnValue = new OrderDto();
-
-        CartEntity cartEntity = new CartEntity();
-        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
-        BeanUtils.copyProperties(cartDto, cartEntity);
-
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setPublicOrderId(UUID.randomUUID().toString());
-        orderEntity.setCart(cartEntity);
+
+        //Set user
+        UserEntity userEntity = new UserEntity();
+        UserDto userDto = userService.getUser(publicUserId);
+        BeanUtils.copyProperties(userDto,userEntity);
         orderEntity.setUser(userEntity);
 
-        OrderEntity savedOrder = orderRepository.save(orderEntity);
-        BeanUtils.copyProperties(savedOrder, returnValue);
+        //Set cart
+        CartEntity cartEntity = new CartEntity();
+        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
+        BeanUtils.copyProperties(cartDto,cartEntity);
+        orderEntity.setCart(cartEntity);
 
-        //We create new cart and all items that you will add to cart in the future will be added to him while this current is permanently linked this order
-        cartService.createCart(publicUserId);
+        //Set publicOrderId
 
-        //Do not know how to implement proper transferring nested objects thats are different type in different layers(dto/response/entity)\
-        //Thats why this \/
+        orderEntity.setPublicOrderId(UUID.randomUUID().toString());
 
-        returnValue.setCart(savedOrder.getCart());
-        returnValue.setUser(savedOrder.getUser());
-
-        return returnValue;
-    }
-
-    @Override
-    public List<OrderDto> getOrdersForUser(String publicUserId) {
-        List<OrderDto> returnValue = new ArrayList<>();
-
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-
-
-        List<OrderEntity> orders = orderRepository.findByUser(userEntity);
-        for (OrderEntity orderEntity : orders) {
-            OrderDto orderDto = new OrderDto();
-            BeanUtils.copyProperties(orderEntity, orderDto);
-            //Do not know how to implement proper transferring nested objects thats are different type in different layers(dto/response/entity)\
-            //Thats why this \/
-            orderDto.setCart(orderEntity.getCart());
-            orderDto.setUser(orderEntity.getUser());
-
-            returnValue.add(orderDto);
+        //Check if cart does not have more item then in stock
+        for(CartItemDto cartItemTmp : cartDto.getCartItems()){
+            int stock = cartItemTmp.getProduct().getQuantityOfStock();
+            if(stock<=cartItemTmp.getQuantity())
+                throw new RuntimeException("Sorry but you have put more products to cart then there is in stock "+cartItemTmp.getProduct().getPublicProductId());
         }
 
+        //Check if cart contains any car items
+
+        if(cartDto.getCartItems().isEmpty())
+            throw new RuntimeException("Your cart is empty please put some item into it before making a order");
+
+        //Save Order
+
+        OrderEntity savedEntity = orderRepository.save(orderEntity);
+
+        //Update Products stock
+
+        for(CartItemDto cartItemTmp : cartDto.getCartItems()){
+            productService.updateProductStock(cartItemTmp.getQuantity(),cartItemTmp.getProduct().getPublicProductId());
+        }
+
+        //SetOrderForCart
+
+        cartService.saveCartOrder(savedEntity.getCart().getPublicCartId(), savedEntity.getPublicOrderId());
+
+
+        //Assigning nested objects value to
+        BeanUtils.copyProperties(orderEntity,returnValue);
+
+        returnValue.setUser(userService.getUser(publicUserId));
+        returnValue.setCart(cartService.getCartCurrentOnPublicUserId(publicUserId));
+
+        //Create New Cart
+
+        cartService.createCart(publicUserId);
         return returnValue;
     }
-
-
 }

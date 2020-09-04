@@ -38,13 +38,10 @@ public class CartEntity implements Serializable {
     private UserEntity user;
 
     @OneToOne(fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            })
-    @JoinColumn(name = "order_id")
-    private OrderEntity orderEntity;
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 
+    @JoinColumn(name= "order_id")
+    private OrderEntity orderEntity;
 
     public Integer getCartId() {
         return cartId;
@@ -62,6 +59,13 @@ public class CartEntity implements Serializable {
         this.publicCartId = publicCartId;
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public List<CartItemEntity> getCartItems() {
         return cartItems;
@@ -69,10 +73,6 @@ public class CartEntity implements Serializable {
 
     public void setCartItems(List<CartItemEntity> cartItems) {
         this.cartItems = cartItems;
-    }
-
-    public void addCartItem(CartItemEntity cartItemEntity) {
-        this.cartItems.add(cartItemEntity);
     }
 
     public UserEntity getUser() {
@@ -85,14 +85,6 @@ public class CartEntity implements Serializable {
 
     public OrderEntity getOrderEntity() {
         return orderEntity;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public void setOrderEntity(OrderEntity orderEntity) {

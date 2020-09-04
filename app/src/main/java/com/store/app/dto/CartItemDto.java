@@ -14,14 +14,6 @@ public class CartItemDto implements Serializable {
     private ProductDto product;
     private double productsPrice;
 
-    public double getProductsPrice() {
-        return productsPrice;
-    }
-
-    public void setProductsPrice(double productsPrice) {
-        this.productsPrice = productsPrice;
-    }
-
     public Integer getCartItemId() {
         return cartItemId;
     }
@@ -62,9 +54,11 @@ public class CartItemDto implements Serializable {
         this.product = product;
     }
 
-    public void setProduct(ProductEntity product) {
-        ProductDto tmp = new ProductDto();
-        BeanUtils.copyProperties(product, tmp);
-        this.product = tmp;
+    public double getProductsPrice() {
+        return productsPrice;
+    }
+
+    public void setProductsPrice(double productsPrice) {
+        this.productsPrice = productsPrice;
     }
 }

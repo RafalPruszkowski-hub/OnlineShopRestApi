@@ -4,19 +4,11 @@ import com.store.app.dto.ProductDto;
 import org.springframework.beans.BeanUtils;
 
 public class CartItemResponseModel {
-    private String publicCartItemId;
-    private int quantity;
-    private double productsPrice;
+        private String publicCartItemId;
+        private int quantity;
+        private double productsPrice;
+        private ProductResponseModel product;
 
-    private ProductResponseModel product;
-
-    public double getProductsPrice() {
-        return productsPrice;
-    }
-
-    public void setProductsPrice(double productsPrice) {
-        this.productsPrice = productsPrice;
-    }
 
     public String getPublicCartItemId() {
         return publicCartItemId;
@@ -34,25 +26,19 @@ public class CartItemResponseModel {
         this.quantity = quantity;
     }
 
+    public double getProductsPrice() {
+        return productsPrice;
+    }
+
+    public void setProductsPrice(double productsPrice) {
+        this.productsPrice = productsPrice;
+    }
+
     public ProductResponseModel getProduct() {
         return product;
     }
 
     public void setProduct(ProductResponseModel product) {
         this.product = product;
-    }
-
-    public void setProduct(ProductDto productDto) {
-        ProductResponseModel tmp = new ProductResponseModel();
-        BeanUtils.copyProperties(productDto, tmp);
-        this.product = tmp;
-    }
-
-    @Override
-    public String toString() {
-        return "CartItemResponseModel{" +
-                "publicCartItemId='" + publicCartItemId + '\'' +
-                ", quantity=" + quantity +
-                '}';
     }
 }

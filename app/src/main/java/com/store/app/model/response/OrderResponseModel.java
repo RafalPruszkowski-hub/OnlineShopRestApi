@@ -2,12 +2,12 @@ package com.store.app.model.response;
 
 import com.store.app.dto.CartDto;
 import com.store.app.dto.UserDto;
-import org.springframework.beans.BeanUtils;
 
 public class OrderResponseModel {
     private String publicOrderId;
-    private CartResponseModel cart;
     private UserResponseModel user;
+    private CartResponseModel cart;
+
 
     public String getPublicOrderId() {
         return publicOrderId;
@@ -32,17 +32,4 @@ public class OrderResponseModel {
     public void setUser(UserResponseModel user) {
         this.user = user;
     }
-
-    public void setCart(CartDto cartDto) {
-        CartResponseModel tmp = new CartResponseModel();
-        BeanUtils.copyProperties(cartDto, tmp);
-        this.cart = tmp;
-    }
-
-    public void setUser(UserDto userDto) {
-        UserResponseModel tmp = new UserResponseModel();
-        BeanUtils.copyProperties(userDto, tmp);
-        this.user = tmp;
-    }
-
 }

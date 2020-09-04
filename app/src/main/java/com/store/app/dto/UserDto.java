@@ -1,12 +1,11 @@
 package com.store.app.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class UserDto implements Serializable {
     private static final long serialVersionUID = -4131766793091890797L;
-    private int id;
-    private String userId;
+    private int userId;
+    private String publicUserId;
     private String firstName;
     private String lastName;
     private String address;
@@ -14,15 +13,14 @@ public class UserDto implements Serializable {
     private String telephone;
     private String email;
     private String password;
-    private String publicUserId;
-    private List<OrderDto> orders;
+    //private List<OrderDto> orders;
 
-    public List<OrderDto> getOrders() {
-        return orders;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setOrders(List<OrderDto> orders) {
-        this.orders = orders;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getPublicUserId() {
@@ -31,14 +29,6 @@ public class UserDto implements Serializable {
 
     public void setPublicUserId(String publicUserId) {
         this.publicUserId = publicUserId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -85,12 +75,8 @@ public class UserDto implements Serializable {
         return email;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -99,10 +85,6 @@ public class UserDto implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
 

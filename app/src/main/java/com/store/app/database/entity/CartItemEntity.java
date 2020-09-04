@@ -8,15 +8,6 @@ import java.io.Serializable;
 @Entity(name = "cart_items")
 public class CartItemEntity implements Serializable {
     private static final long serialVersionUID = 2L;
-
-    public CartItemEntity() {
-    }
-
-    public CartItemEntity(CartEntity cart, ProductEntity product) {
-        this.cart = cart;
-        this.product = product;
-    }
-
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,22 +31,14 @@ public class CartItemEntity implements Serializable {
     @JoinColumn(name = "cartProductId")
     private ProductEntity product;
 
-    public int getQuantity() {
-        return quantity;
+
+    public CartItemEntity() {
     }
 
-    public double getProductsPrice() {
-        return productsPrice;
+    public CartItemEntity(CartEntity cart, ProductEntity product) {
+        this.cart = cart;
+        this.product = product;
     }
-
-    public void setProductsPrice(double productsPrice) {
-        this.productsPrice = productsPrice;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
 
     public Integer getCartItemId() {
         return cartItemId;
@@ -73,6 +56,21 @@ public class CartItemEntity implements Serializable {
         this.publicCartItemId = publicCartItemId;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getProductsPrice() {
+        return productsPrice;
+    }
+
+    public void setProductsPrice(double productsPrice) {
+        this.productsPrice = productsPrice;
+    }
 
     public CartEntity getCart() {
         return cart;
