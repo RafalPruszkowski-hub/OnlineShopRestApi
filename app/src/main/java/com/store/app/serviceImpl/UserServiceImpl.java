@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public UserDto createUser(UserDto user) {
         //TODO Create regex for not allowing misspelled inputs
@@ -35,6 +42,8 @@ public class UserServiceImpl implements UserService {
 
         String publicUserId = UUID.randomUUID().toString();
         userEntity.setPublicUserId(publicUserId);
+
+        userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
         cartService.createCart(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
@@ -95,6 +104,23 @@ public class UserServiceImpl implements UserService {
             returnValue.add(userDto);
         }
 
+        return returnValue;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if (userEntity == null) throw new UsernameNotFoundException(email);
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+    }
+
+    @Override
+    public UserDto getUserByEmail(String email){
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if(userEntity==null) throw new UsernameNotFoundException(email);
+        UserDto returnValue = new UserDto();
+        BeanUtils.copyProperties(userEntity, returnValue);
         return returnValue;
     }
 }

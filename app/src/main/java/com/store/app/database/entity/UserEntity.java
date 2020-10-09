@@ -45,10 +45,10 @@ public class UserEntity implements Serializable {
     private String email;
 
     @Column
-    @NotEmpty
     private String password;
 
     @Column
+    @NotEmpty
     private String encryptedPassword;
 
     public String getEncryptedPassword() {

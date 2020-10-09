@@ -38,7 +38,7 @@ public class ProductController {
     }
 
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/products/{id}")
     public ProductResponseModel getProduct(@PathVariable(name = "id") String id) {
         ProductResponseModel returnValue = new ProductResponseModel();
 

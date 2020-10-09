@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +33,13 @@ public class UserController {
     @GetMapping(path = "/{id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel getUser(@PathVariable("id") String userId) {
+    public UserResponseModel getUser(@PathVariable("id") String userId, Principal principal) {
         UserResponseModel returnValue = new UserResponseModel();
-
         UserDto userDto = userService.getUser(userId);
 
-        BeanUtils.copyProperties(userDto, returnValue);
+        if (!userDto.getEmail().equals(principal.getName())) return null;
 
+        BeanUtils.copyProperties(userDto, returnValue);
         return returnValue;
     }
 
@@ -88,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping
-    @RequestMapping(path = "{id}/cart")
+    @RequestMapping(path = "/{id}/cart")
     public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
         CartResponseModel returnValue = new CartResponseModel();
 
