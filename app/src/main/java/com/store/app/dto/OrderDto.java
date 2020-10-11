@@ -1,9 +1,5 @@
 package com.store.app.dto;
 
-import com.store.app.database.entity.CartEntity;
-import com.store.app.database.entity.UserEntity;
-import org.springframework.beans.BeanUtils;
-
 import java.io.Serializable;
 
 public class OrderDto implements Serializable {

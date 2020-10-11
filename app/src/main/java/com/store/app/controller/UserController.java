@@ -1,6 +1,5 @@
 package com.store.app.controller;
 
-import com.store.app.database.repository.CartItemRepository;
 import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
 import com.store.app.dto.UserDto;
@@ -37,6 +36,7 @@ public class UserController {
         UserResponseModel returnValue = new UserResponseModel();
         UserDto userDto = userService.getUser(userId);
 
+        //TODO implement custom error message
         if (!userDto.getEmail().equals(principal.getName())) return null;
 
         BeanUtils.copyProperties(userDto, returnValue);
@@ -76,34 +76,43 @@ public class UserController {
     @PutMapping(path = "/{id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel updateUser(@PathVariable("id") String id, @RequestBody UserDetailsRequestModel userDetailsRequestModel) {
+    public UserResponseModel updateUser(@PathVariable("id") String id, @RequestBody UserDetailsRequestModel userDetailsRequestModel, Principal principal) {
         UserResponseModel returnValue = new UserResponseModel();
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userDetailsRequestModel, userDto);
 
-        UserDto createdUser = userService.updateUser(userDto, id);
-        BeanUtils.copyProperties(createdUser, returnValue);
+        //TODO implement custom error message
+        if (!userDto.getEmail().equals(principal.getName())) return null;
+
+        UserDto updateUser = userService.updateUser(userDto, id);
+        BeanUtils.copyProperties(updateUser, returnValue);
 
         return returnValue;
     }
 
     @GetMapping
     @RequestMapping(path = "/{id}/cart")
-    public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
+    public CartResponseModel getCurrentCart(@PathVariable("id") String userId, Principal principal) {
         CartResponseModel returnValue = new CartResponseModel();
 
         CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
+
+
+        //TODO implement custom error message
+        if (!cartDto.getUser().getEmail().equals(principal.getName())) return null;
+
+
         BeanUtils.copyProperties(cartDto, returnValue);
 
         //Creating ResponseModels for products and cartItems to hide database ID
         List<CartItemResponseModel> returnItems = new ArrayList<>();
-        for(CartItemDto cartItemDto : cartDto.getCartItems()){
+        for (CartItemDto cartItemDto : cartDto.getCartItems()) {
             CartItemResponseModel cartItemResponseModel = new CartItemResponseModel();
-            BeanUtils.copyProperties(cartItemDto,cartItemResponseModel);
+            BeanUtils.copyProperties(cartItemDto, cartItemResponseModel);
 
             ProductResponseModel productResponseModel = new ProductResponseModel();
-            BeanUtils.copyProperties(cartItemDto.getProduct(),productResponseModel);
+            BeanUtils.copyProperties(cartItemDto.getProduct(), productResponseModel);
 
             cartItemResponseModel.setProduct(productResponseModel);
             returnItems.add(cartItemResponseModel);

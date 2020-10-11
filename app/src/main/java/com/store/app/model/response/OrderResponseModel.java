@@ -1,8 +1,5 @@
 package com.store.app.model.response;
 
-import com.store.app.dto.CartDto;
-import com.store.app.dto.UserDto;
-
 public class OrderResponseModel {
     private String publicOrderId;
     private UserResponseModel user;

@@ -18,8 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -46,18 +46,18 @@ public class CartServiceImpl implements CartService {
 
         //Setting user as dto for return value
         UserDto returnUser = new UserDto();
-        BeanUtils.copyProperties(cartEntity.getUser(),returnUser);
+        BeanUtils.copyProperties(cartEntity.getUser(), returnUser);
         returnValue.setUser(returnUser);
 
         //Setting list of carts as list of dto items for return value
         List<CartItemDto> returnItems = new ArrayList<>();
-        for(CartItemEntity cartItemEntity : cartEntity.getCartItems()){
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
             CartItemDto cartItemDto = new CartItemDto();
-            BeanUtils.copyProperties(cartItemEntity,cartItemDto);
+            BeanUtils.copyProperties(cartItemEntity, cartItemDto);
             //to not allow infinite loop occurs while senting cartItems to return value
             cartItemDto.setCart(null);
             ProductDto productDto = new ProductDto();
-            BeanUtils.copyProperties(cartItemEntity.getProduct(),productDto);
+            BeanUtils.copyProperties(cartItemEntity.getProduct(), productDto);
             cartItemDto.setProduct(productDto);
             returnItems.add(cartItemDto);
         }

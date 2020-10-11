@@ -70,6 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
         return returnValue;
     }
+
     @Override
     public List<ProductDto> getProducts(int page, int limit) {
         List<ProductDto> returnValue = new ArrayList();
@@ -92,10 +93,10 @@ public class ProductServiceImpl implements ProductService {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
-        productEntity.setQuantityOfStock(productEntity.getQuantityOfStock()-quantity);
+        productEntity.setQuantityOfStock(productEntity.getQuantityOfStock() - quantity);
         ProductEntity storedEntity = productRepository.save(productEntity);
 
-        BeanUtils.copyProperties(storedEntity,returnValue);
+        BeanUtils.copyProperties(storedEntity, returnValue);
 
         return returnValue;
     }

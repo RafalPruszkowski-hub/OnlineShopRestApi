@@ -24,7 +24,7 @@ public class ProductController {
     CartService cartService;
 
     @PostMapping
-    public ProductResponseModel getProduct(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
+    public ProductResponseModel createProduct(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
         ProductResponseModel returnValue = new ProductResponseModel();
 
         ProductDto productDto = new ProductDto();
@@ -38,25 +38,26 @@ public class ProductController {
     }
 
 
-    @GetMapping(path = "/products/{id}")
-    public ProductResponseModel getProduct(@PathVariable(name = "id") String id) {
+    @GetMapping(path = "/{productId}")
+    public ProductResponseModel getProduct(@PathVariable(name = "productId") String productId) {
         ProductResponseModel returnValue = new ProductResponseModel();
 
-        ProductDto productDto = productService.getProduct(id);
+        ProductDto productDto = productService.getProduct(productId);
         BeanUtils.copyProperties(productDto, returnValue);
 
         return returnValue;
     }
 
-    @PutMapping(path = "/{id}")
-    public ProductResponseModel updateProduct(@PathVariable(name = "id") String id, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
+    @PutMapping(path = "/{productId}")
+    public ProductResponseModel updateProduct(@PathVariable(name = "productId") String productId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
         ProductResponseModel returnValue = new ProductResponseModel();
 
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
+        productDto.setPublicProductId(productId);
 
 
-        ProductDto createdProduct = productService.updateProduct(productDto, id);
+        ProductDto createdProduct = productService.updateProduct(productDto, productId);
         BeanUtils.copyProperties(createdProduct, returnValue);
 
         return returnValue;
@@ -80,6 +81,7 @@ public class ProductController {
         return returnValue;
     }
 
+/*
     @GetMapping
     @RequestMapping(path = "users/{id}/cart")
     public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
@@ -90,4 +92,5 @@ public class ProductController {
 
         return returnValue;
     }
+    */
 }

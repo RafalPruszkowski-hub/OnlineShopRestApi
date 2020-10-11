@@ -13,6 +13,7 @@ public class UserDto implements Serializable {
     private String telephone;
     private String email;
     private String password;
+    private String encryptedPassword;
     //private List<OrderDto> orders;
 
     public int getUserId() {
@@ -85,6 +86,14 @@ public class UserDto implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 }
 

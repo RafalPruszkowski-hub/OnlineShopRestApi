@@ -1,8 +1,5 @@
 package com.store.app.dto;
 
-import com.store.app.database.entity.ProductEntity;
-import org.springframework.beans.BeanUtils;
-
 import java.io.Serializable;
 
 public class CartItemDto implements Serializable {

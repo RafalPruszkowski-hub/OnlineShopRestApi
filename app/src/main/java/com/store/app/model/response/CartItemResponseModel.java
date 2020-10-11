@@ -1,13 +1,10 @@
 package com.store.app.model.response;
 
-import com.store.app.dto.ProductDto;
-import org.springframework.beans.BeanUtils;
-
 public class CartItemResponseModel {
-        private String publicCartItemId;
-        private int quantity;
-        private double productsPrice;
-        private ProductResponseModel product;
+    private String publicCartItemId;
+    private int quantity;
+    private double productsPrice;
+    private ProductResponseModel product;
 
 
     public String getPublicCartItemId() {

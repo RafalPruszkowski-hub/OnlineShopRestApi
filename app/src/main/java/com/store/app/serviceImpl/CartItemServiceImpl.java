@@ -44,11 +44,11 @@ public class CartItemServiceImpl implements CartItemService {
         //Check if the record already exist in table and if yes throw runtime exception
 
         //if(cartEntity.getCartItems().isEmpty()){ } else {
-            for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
-                if (cartItemEntity.getProduct().getPublicProductId().equals(publicProductId)) {
-                    throw new RuntimeException("Product already exist in your cart.");
-                }
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+            if (cartItemEntity.getProduct().getPublicProductId().equals(publicProductId)) {
+                throw new RuntimeException("Product already exist in your cart.");
             }
+        }
         //}
 
         //creating entity that will be saved in database
@@ -57,11 +57,11 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemEntity.setPublicCartItemId(UUID.randomUUID().toString());
 
         cartItemEntity.setProductsPrice(productEntity.getProductPrice()
-                                            * cartItemDto.getQuantity());
+                * cartItemDto.getQuantity());
 
         //saving item into database
         CartItemEntity storedCartItem = cartItemRepository.save(cartItemEntity);
-        BeanUtils.copyProperties(storedCartItem,returnValue);
+        BeanUtils.copyProperties(storedCartItem, returnValue);
 
 
         //Update total price for the cart that item is added to
@@ -70,7 +70,7 @@ public class CartItemServiceImpl implements CartItemService {
 
         //Setting properties for return value
         ProductResponseModel productResponseModel = new ProductResponseModel();
-        BeanUtils.copyProperties(storedCartItem.getProduct(),productResponseModel);
+        BeanUtils.copyProperties(storedCartItem.getProduct(), productResponseModel);
         returnValue.setProduct(productResponseModel);
 
         return returnValue;

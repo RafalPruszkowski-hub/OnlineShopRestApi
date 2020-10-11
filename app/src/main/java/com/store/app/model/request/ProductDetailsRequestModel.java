@@ -8,10 +8,6 @@ public class ProductDetailsRequestModel {
     private int quantityOfStock;
     private double productPrice = 0;
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
-
     public String getProductName() {
         return productName;
     }
@@ -54,6 +50,10 @@ public class ProductDetailsRequestModel {
 
     public double getProductPrice() {
         return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
 

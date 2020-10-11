@@ -44,12 +44,14 @@ public class UserEntity implements Serializable {
     @Column
     private String email;
 
-    @Column
-    private String password;
 
     @Column
     @NotEmpty
     private String encryptedPassword;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<OrderEntity> orders;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<CartEntity> cart;
 
     public String getEncryptedPassword() {
         return encryptedPassword;
@@ -58,12 +60,6 @@ public class UserEntity implements Serializable {
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
     }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
-    private List<OrderEntity> orders;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
-    private List<CartEntity> cart;
 
     public Integer getUserId() {
         return userId;
@@ -127,14 +123,6 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<CartEntity> getCart() {

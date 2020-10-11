@@ -1,7 +1,5 @@
 package com.store.app.dto;
 
-import com.store.app.database.entity.CartItemEntity;
-
 import java.io.Serializable;
 import java.util.List;
 

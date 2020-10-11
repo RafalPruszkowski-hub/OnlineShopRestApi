@@ -9,6 +9,26 @@ import java.util.List;
 @Entity(name = "carts")
 public class CartEntity implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer cartId;
+    @Column
+    @NotEmpty
+    private String publicCartId;
+    @Column
+    private double totalPrice = 0;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CartItemEntity> cartItems;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+    @OneToOne(fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+
+    @JoinColumn(name = "order_id")
+    private OrderEntity orderEntity;
+
 
     public CartEntity(UserEntity user) {
         this.user = user;
@@ -16,32 +36,6 @@ public class CartEntity implements Serializable {
 
     public CartEntity() {
     }
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cartId;
-
-    @Column
-    @NotEmpty
-    private String publicCartId;
-
-    @Column
-    private double totalPrice = 0;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<CartItemEntity> cartItems;
-
-
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserEntity user;
-
-    @OneToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-
-    @JoinColumn(name= "order_id")
-    private OrderEntity orderEntity;
 
     public Integer getCartId() {
         return cartId;
