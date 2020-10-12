@@ -1,5 +1,8 @@
 package com.store.app.database.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,8 +19,8 @@ public class RoleEntity implements Serializable {
 
     @ManyToMany(mappedBy = "roles")
     private Collection<UserEntity> users;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name="roles_authorities",
             joinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="authorities_id", referencedColumnName = "id") )

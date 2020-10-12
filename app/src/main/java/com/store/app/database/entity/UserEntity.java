@@ -1,6 +1,10 @@
 package com.store.app.database.entity;
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.repository.cdi.Eager;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -53,9 +57,10 @@ public class UserEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<CartEntity> cart;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name="users_roles",
-            joinColumns = @JoinColumn(name="users_id", referencedColumnName = "id"),
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id") )
     private Collection<RoleEntity> roles;
 
