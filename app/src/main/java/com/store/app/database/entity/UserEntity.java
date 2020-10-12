@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "users")
@@ -44,7 +45,6 @@ public class UserEntity implements Serializable {
     @Column
     private String email;
 
-
     @Column
     @NotEmpty
     private String encryptedPassword;
@@ -52,6 +52,12 @@ public class UserEntity implements Serializable {
     private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<CartEntity> cart;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name="users_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id") )
+    private Collection<RoleEntity> roles;
 
     public String getEncryptedPassword() {
         return encryptedPassword;
@@ -139,5 +145,13 @@ public class UserEntity implements Serializable {
 
     public void setOrders(List<OrderEntity> orders) {
         this.orders = orders;
+    }
+
+    public Collection<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
