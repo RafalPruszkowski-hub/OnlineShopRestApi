@@ -3,6 +3,7 @@ package com.store.app.serviceImpl;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.UserDto;
+import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -111,8 +112,8 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UsernameNotFoundException(email);
-
-        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+        /*return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());*/
+        return new UserPrincipal(userEntity);
     }
 
     @Override

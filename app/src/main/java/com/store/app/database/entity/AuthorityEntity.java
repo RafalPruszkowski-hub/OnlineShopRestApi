@@ -6,7 +6,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name="authorities")
-public class AuthoritiesEntity implements Serializable {
+public class AuthorityEntity implements Serializable {
     private static final long serialVersionUID = -123123412431L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +16,11 @@ public class AuthoritiesEntity implements Serializable {
 
     @ManyToMany(mappedBy = "authorities")
     private Collection<RoleEntity> roles;
+
+    public AuthorityEntity(String name) {
+        this.name=name;
+    }
+    public AuthorityEntity(){}
 
     public long getId() {
         return id;

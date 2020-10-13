@@ -24,7 +24,13 @@ public class RoleEntity implements Serializable {
     @JoinTable(name="roles_authorities",
             joinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="authorities_id", referencedColumnName = "id") )
-    private Collection<AuthoritiesEntity> authorities;
+    private Collection<AuthorityEntity> authorities;
+
+    public RoleEntity(String name) {
+        this.name = name;
+    }
+
+    public RoleEntity(){}
 
     public long getId() {
         return id;
@@ -44,10 +50,10 @@ public class RoleEntity implements Serializable {
     public void setUsers(Collection<UserEntity> users) {
         this.users = users;
     }
-    public Collection<AuthoritiesEntity> getAuthorities() {
+    public Collection<AuthorityEntity> getAuthorities() {
         return authorities;
     }
-    public void setAuthorities(Collection<AuthoritiesEntity> authorities) {
+    public void setAuthorities(Collection<AuthorityEntity> authorities) {
         this.authorities = authorities;
     }
 }

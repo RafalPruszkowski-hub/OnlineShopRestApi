@@ -98,10 +98,8 @@ public class UserController {
 
         CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
 
-
         //TODO implement custom error message
         if (!cartDto.getUser().getEmail().equals(principal.getName())) return null;
-
 
         BeanUtils.copyProperties(cartDto, returnValue);
 
