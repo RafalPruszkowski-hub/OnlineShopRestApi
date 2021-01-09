@@ -64,7 +64,7 @@ public class OrderController {
         //Check if it's correct user
         UserDto userDto = userService.getUser(publicUserId);
         //TODO implement custom exception
-        if (!principal.getName().equals(userDto.getEmail())) return null;
+        if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
         //creating new order and new cart that will be from this point used by user who called that method
         OrderDto createdOrder = orderService.createOrder(publicUserId);
@@ -73,14 +73,14 @@ public class OrderController {
         return returnValue;
     }
 
-    @GetMapping(path = "/{idUser}/orders/{idOrder}")
+    @GetMapping(path = "/users/{idUser}/orders/{idOrder}")
     public OrderResponseModel getOrder(@PathVariable(name = "idUser") String publicUserId,
                                        @PathVariable(name = "idOrder") String publicOrderId,
                                        Principal principal) {
         //Check if it's correct user
         UserDto userDto = userService.getUser(publicUserId);
         //TODO implement custom exception
-        if (!principal.getName().equals(userDto.getEmail())) return null;
+        if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
         OrderDto orderDto = orderService.getOrder(publicOrderId);
 
@@ -88,7 +88,7 @@ public class OrderController {
         return returnValue;
     }
 
-    @GetMapping(path = "/{idUser}/orders")
+    @GetMapping(path = "/users/{idUser}/orders")
     public List<OrderResponseModel> getOrders(@PathVariable(name = "idUser") String publicUserId,
                                               Principal principal,
                                               @RequestParam(value = "page", defaultValue = "0") int page,
@@ -96,7 +96,7 @@ public class OrderController {
         //Check if it's correct user
         UserDto userDto = userService.getUser(publicUserId);
         //TODO implement custom exception
-        if (!principal.getName().equals(userDto.getEmail())) return null;
+        if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
 
         List<OrderDto> orderDtoList = orderService.getOrders(publicUserId, page ,limit);

@@ -58,7 +58,7 @@ public class UserEntity implements Serializable {
     private List<CartEntity> cart;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name="users_roles",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id") )

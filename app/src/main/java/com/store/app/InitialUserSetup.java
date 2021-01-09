@@ -1,17 +1,13 @@
 package com.store.app;
 
-import com.store.app.database.entity.AuthorityEntity;
-import com.store.app.database.entity.RoleEntity;
-import com.store.app.database.entity.UserEntity;
-import com.store.app.database.repository.AuthorityRepository;
-import com.store.app.database.repository.RoleRepository;
-import com.store.app.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.store.app.database.repository.*;
+import com.store.app.database.entity.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +32,12 @@ public class InitialUserSetup {
     @EventListener
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        RoleEntity roleAdmin = createRole("ROLE_ADMIN", new ArrayList<>());
+        AuthorityEntity readAuthority = createAuthority("READ_AUTHORITY");
+        AuthorityEntity writeAuthority = createAuthority("WRITE_AUTHORITY");
+        AuthorityEntity deleteAuthority = createAuthority("DELETE_AUTHORITY");
+
+        RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority,writeAuthority,deleteAuthority));
+        RoleEntity roleUser = createRole("ROLE_ADMIN", Arrays.asList(readAuthority,writeAuthority));
 
         if (roleAdmin == null) return;
 
