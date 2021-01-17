@@ -1,5 +1,8 @@
 package com.store.app.dto;
 
+import com.store.app.database.entity.CartItemEntity;
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
 
 public class CartItemDto implements Serializable {
@@ -10,6 +13,13 @@ public class CartItemDto implements Serializable {
     private CartDto cart;
     private ProductDto product;
     private double productsPrice;
+
+    public CartItemDto() {}
+
+    public CartItemDto(CartItemEntity cartItemEntity) {
+        BeanUtils.copyProperties(cartItemEntity,this);
+        product = new ProductDto(cartItemEntity.getProduct());
+    }
 
     public Integer getCartItemId() {
         return cartItemId;

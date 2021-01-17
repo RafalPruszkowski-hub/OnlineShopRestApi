@@ -6,6 +6,7 @@ import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.OrderRepository;
 import com.store.app.dto.*;
+import com.store.app.model.response.*;
 import com.store.app.service.CartService;
 import com.store.app.service.OrderService;
 import com.store.app.service.ProductService;
@@ -92,15 +93,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrder(String publicOrderId) {
         OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
-        OrderDto returnValue = new OrderDto();
-        BeanUtils.copyProperties(orderEntity,returnValue);
+        OrderDto returnValue = new OrderDto(orderEntity);
 
         return returnValue;
     }
 
     @Override
     public List<OrderDto> getOrders(String publicUserId,
-                                    int page, int limit) {
+                                              int page, int limit) {
         List returnValue = new ArrayList<OrderDto>();
 
         Pageable pageableRequest = PageRequest.of(page, limit);
@@ -108,8 +108,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderEntity> orders = productPage.getContent();
 
         for (OrderEntity orderEntity : orders) {
-            OrderDto orderDto = new OrderDto();
-            BeanUtils.copyProperties(orderEntity, orderDto);
+            OrderDto orderDto = new OrderDto(orderEntity);
             returnValue.add(orderDto);
         }
 

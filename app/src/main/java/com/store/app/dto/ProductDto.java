@@ -1,5 +1,8 @@
 package com.store.app.dto;
 
+import com.store.app.database.entity.ProductEntity;
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
 
 public class ProductDto implements Serializable {
@@ -12,6 +15,12 @@ public class ProductDto implements Serializable {
     private String productDescription;
     private int quantityOfStock;
     private double productPrice;
+
+    public ProductDto(){}
+
+    public ProductDto(ProductEntity productEntity){
+        BeanUtils.copyProperties(productEntity,this);
+    }
 
     public Integer getProductId() {
         return productId;

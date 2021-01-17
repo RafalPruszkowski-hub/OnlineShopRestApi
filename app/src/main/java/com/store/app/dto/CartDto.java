@@ -1,6 +1,12 @@
 package com.store.app.dto;
 
+import com.store.app.database.entity.CartEntity;
+import com.store.app.database.entity.CartItemEntity;
+import org.apache.catalina.User;
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartDto implements Serializable {
@@ -11,6 +17,19 @@ public class CartDto implements Serializable {
     private UserDto user;
     private List<CartItemDto> cartItems;
     private OrderDto orderDto;
+
+    public CartDto(){
+
+    }
+    public CartDto(CartEntity cartEntity){
+        BeanUtils.copyProperties(cartEntity,this);
+        cartItems = new ArrayList<>();
+        for(CartItemEntity cartItemEntity : cartEntity.getCartItems()){
+            CartItemDto cartItemDto = new CartItemDto(cartItemEntity);
+            cartItems.add(cartItemDto);
+        }
+        user = new UserDto(cartEntity.getUser());
+    }
 
     public Integer getCartId() {
         return cartId;

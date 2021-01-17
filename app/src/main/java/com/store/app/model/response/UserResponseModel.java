@@ -1,5 +1,8 @@
 package com.store.app.model.response;
 
+import com.store.app.dto.UserDto;
+import org.springframework.beans.BeanUtils;
+
 public class UserResponseModel {
     private String publicUserId;
     private String firstName;
@@ -8,6 +11,12 @@ public class UserResponseModel {
     private String city;
     private String telephone;
     private String email;
+
+    public UserResponseModel(){}
+
+    public UserResponseModel(UserDto userDto) {
+        BeanUtils.copyProperties(userDto,this);
+    }
 
     public String getPublicUserId() {
         return publicUserId;

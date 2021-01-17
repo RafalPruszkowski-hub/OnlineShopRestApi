@@ -1,5 +1,8 @@
 package com.store.app.model.response;
 
+import com.store.app.dto.ProductDto;
+import org.springframework.beans.BeanUtils;
+
 public class ProductResponseModel {
     private String publicProductId;
     private String productName;
@@ -8,6 +11,12 @@ public class ProductResponseModel {
     private String productDescription;
     private int quantityOfStock;
     private double productPrice;
+
+    public ProductResponseModel() {
+    }
+    public ProductResponseModel(ProductDto product) {
+        BeanUtils.copyProperties(product,this);
+    }
 
     public String getPublicProductId() {
         return publicProductId;

@@ -80,17 +80,4 @@ public class ProductController {
 
         return returnValue;
     }
-
-/*
-    @GetMapping
-    @RequestMapping(path = "users/{id}/cart")
-    public CartResponseModel getCurrentCart(@PathVariable("id") String userId) {
-        CartResponseModel returnValue = new CartResponseModel();
-
-        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
-        BeanUtils.copyProperties(cartDto, returnValue);
-
-        return returnValue;
-    }
-    */
 }

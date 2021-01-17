@@ -1,5 +1,8 @@
 package com.store.app.dto;
 
+import com.store.app.database.entity.UserEntity;
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
@@ -15,6 +18,12 @@ public class UserDto implements Serializable {
     private String password;
     private String encryptedPassword;
     //private List<OrderDto> orders;
+
+    public UserDto(){}
+
+    public UserDto(UserEntity userEntity){
+        BeanUtils.copyProperties(userEntity,this);
+    }
 
     public int getUserId() {
         return userId;

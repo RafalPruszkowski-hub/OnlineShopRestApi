@@ -1,10 +1,21 @@
 package com.store.app.model.response;
 
+import com.store.app.dto.OrderDto;
+import org.springframework.beans.BeanUtils;
+
 public class OrderResponseModel {
     private String publicOrderId;
     private UserResponseModel user;
     private CartResponseModel cart;
 
+    public OrderResponseModel() {
+    }
+
+    public OrderResponseModel(OrderDto orderDto){
+        BeanUtils.copyProperties(orderDto,this);
+        user = new UserResponseModel(orderDto.getUser());
+        cart = new CartResponseModel(orderDto.getCart());
+    }
 
     public String getPublicOrderId() {
         return publicOrderId;

@@ -24,38 +24,6 @@ public class OrderController {
     @Autowired
     UserService userService;
 
-    private static OrderResponseModel changeOrderDtoToResponse(OrderDto orderDto) {
-        OrderResponseModel returnValue = new OrderResponseModel();
-        BeanUtils.copyProperties(orderDto, returnValue);
-
-
-        //Hiding database Id and assigning correct proper objects to returnValue
-        //USER
-        UserResponseModel userResponseModel = new UserResponseModel();
-        BeanUtils.copyProperties(orderDto.getUser(), userResponseModel);
-        returnValue.setUser(userResponseModel);
-
-
-        CartResponseModel cartResponseModel = new CartResponseModel();
-        BeanUtils.copyProperties(orderDto.getCart(), cartResponseModel);
-
-        List<CartItemResponseModel> returnItems = new ArrayList<>();
-        for (CartItemDto cartItem : orderDto.getCart().getCartItems()) {
-            CartItemResponseModel cartItemResponseModel = new CartItemResponseModel();
-            BeanUtils.copyProperties(cartItem, cartItemResponseModel);
-
-            //PRODUCT
-            ProductResponseModel productResponseModel = new ProductResponseModel();
-            BeanUtils.copyProperties(cartItem.getProduct(), productResponseModel);
-            cartItemResponseModel.setProduct(productResponseModel);
-            returnItems.add(cartItemResponseModel);
-        }
-        cartResponseModel.setCartItems(returnItems);
-        returnValue.setCart(cartResponseModel);
-
-        return returnValue;
-    }
-
     //create new order and create new cart for user that will be used from this point to add/remove products
     @PostMapping
     @RequestMapping("/users/{id}/cart/order")
@@ -69,7 +37,8 @@ public class OrderController {
         //creating new order and new cart that will be from this point used by user who called that method
         OrderDto createdOrder = orderService.createOrder(publicUserId);
 
-        OrderResponseModel returnValue = changeOrderDtoToResponse(createdOrder);
+        OrderResponseModel returnValue = new OrderResponseModel(createdOrder);
+
         return returnValue;
     }
 
@@ -84,7 +53,8 @@ public class OrderController {
 
         OrderDto orderDto = orderService.getOrder(publicOrderId);
 
-        OrderResponseModel returnValue = changeOrderDtoToResponse(orderDto);
+        OrderResponseModel returnValue = new OrderResponseModel(orderDto);
+
         return returnValue;
     }
 
@@ -101,10 +71,9 @@ public class OrderController {
 
         List<OrderDto> orderDtoList = orderService.getOrders(publicUserId, page ,limit);
 
-        List<OrderResponseModel> returnValue = new ArrayList();
-
-        for (OrderDto orderDto : orderDtoList) {
-            OrderResponseModel orderResponseModel = changeOrderDtoToResponse(orderDto);
+        List<OrderResponseModel> returnValue = new ArrayList<>();
+        for(OrderDto orderDto : orderDtoList){
+            OrderResponseModel orderResponseModel = new OrderResponseModel(orderDto);
             returnValue.add(orderResponseModel);
         }
 

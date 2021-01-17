@@ -1,5 +1,10 @@
 package com.store.app.model.response;
 
+import com.store.app.dto.CartDto;
+import com.store.app.dto.CartItemDto;
+import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartResponseModel {
@@ -7,6 +12,17 @@ public class CartResponseModel {
     private double totalPrice;
     private List<CartItemResponseModel> cartItems;
 
+    public CartResponseModel() {
+    }
+
+    public CartResponseModel(CartDto cartDto) {
+        BeanUtils.copyProperties(cartDto,this);
+        cartItems = new ArrayList<>();
+        for(CartItemDto cartItemDto : cartDto.getCartItems()){
+            CartItemResponseModel cartItemResponseModel = new CartItemResponseModel(cartItemDto);
+            cartItems.add(cartItemResponseModel);
+        }
+    }
 
     public String getPublicCartId() {
         return publicCartId;

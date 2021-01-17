@@ -1,6 +1,7 @@
 package com.store.app.service;
 
 import com.store.app.dto.OrderDto;
+import com.store.app.model.response.OrderResponseModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface OrderService {
 
     OrderDto getOrder(String publicUserId);
 
-    List getOrders(String publicUserId,int page, int limit);
+    List<OrderDto> getOrders(String publicUserId, int page, int limit);
 }
