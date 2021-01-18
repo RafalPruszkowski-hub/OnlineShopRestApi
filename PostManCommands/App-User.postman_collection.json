@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "63d104af-f107-4144-8edf-ba6a165ecb62",
+		"name": "App-User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Cart Item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\":1\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/product/e2dc0f52-f299-4afd-97d1-961b1a663650",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"product",
+						"e2dc0f52-f299-4afd-97d1-961b1a663650"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current Cart",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/cart/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"cart",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ger Orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/orders?page=0&limit=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/orders/0a900d44-b722-4003-89f2-287286728f23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"orders",
+						"0a900d44-b722-4003-89f2-287286728f23"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "67e7fae0-c762-4e3e-affd-5656b61ecc17",
+		"name": "App-Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"test@admin.com\",\r\n    \"password\":\"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGFkbWluLmNvbSIsImV4cCI6MTYxMTg2MzM5MX0.ckrSR0TvUEyqxXOAEOlW2jPZbRumCvw8nCZblnWZ0uXs7fWeYTNN25DCCnwS0WjcPkcaAURWE8LlWNDp-lDoDg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productName\":\"z\",\r\n    \"productBrand\":\"z\",\r\n    \"productModel\":\"z\",\r\n    \"productDescription\":\"desc\",\r\n    \"quantityOfStock\":\"100\",\r\n    \"productPrice\":\"7777\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Product",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGFkbWluLmNvbSIsImV4cCI6MTYxMTg0OTM1Mn0.PKdrIxhADwH9rO1IzS_0WkAOtNMtm-OQ9Dpq0VUzdoJT5RxAQgjsI1CtAs5CbbJo05PbG9u9cBGQkARfxwhCtQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productName\":\"aa\",\r\n    \"productBrand\":\"aa\",\r\n    \"productModel\":\"aa\",\r\n    \"productDescription\":\"desc desc\",\r\n    \"quantityOfStock\":\"999\",\r\n    \"productPrice\":\"9999\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/products/dccdf70f-9ddc-4570-a21d-59dee6a350d0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						"dccdf70f-9ddc-4570-a21d-59dee6a350d0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGFkbWluLmNvbSIsImV4cCI6MTYxMTc0NjMwOX0.dHtQj5N2z2JffMijdrBJZSFZy0nioVN8sZwLwn2olv3t65ytbzjGNo3vQXCUGj0dryAvRUyWhbEC76pbfVaveQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
