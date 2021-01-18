@@ -25,14 +25,11 @@ public class ProductController {
 
     @PostMapping
     public ProductResponseModel createProduct(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
-        ProductResponseModel returnValue = new ProductResponseModel();
-
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
 
-
         ProductDto createdProduct = productService.createProduct(productDto);
-        BeanUtils.copyProperties(createdProduct, returnValue);
+        ProductResponseModel returnValue = new ProductResponseModel(createdProduct);
 
         return returnValue;
     }
@@ -40,25 +37,21 @@ public class ProductController {
 
     @GetMapping(path = "/{productId}")
     public ProductResponseModel getProduct(@PathVariable(name = "productId") String productId) {
-        ProductResponseModel returnValue = new ProductResponseModel();
-
         ProductDto productDto = productService.getProduct(productId);
-        BeanUtils.copyProperties(productDto, returnValue);
+        ProductResponseModel returnValue = new ProductResponseModel(productDto);
 
         return returnValue;
     }
 
     @PutMapping(path = "/{productId}")
     public ProductResponseModel updateProduct(@PathVariable(name = "productId") String productId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
-        ProductResponseModel returnValue = new ProductResponseModel();
-
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
         productDto.setPublicProductId(productId);
 
 
         ProductDto createdProduct = productService.updateProduct(productDto, productId);
-        BeanUtils.copyProperties(createdProduct, returnValue);
+        ProductResponseModel returnValue = new ProductResponseModel(createdProduct);
 
         return returnValue;
     }
@@ -73,8 +66,7 @@ public class ProductController {
         List<ProductDto> productDtoList = productService.getProducts(page, limit);
 
         for (ProductDto productDto : productDtoList) {
-            ProductResponseModel productResponseModel = new ProductResponseModel();
-            BeanUtils.copyProperties(productDto, productResponseModel);
+            ProductResponseModel productResponseModel = new ProductResponseModel(productDto);
             returnValue.add(productResponseModel);
         }
 
