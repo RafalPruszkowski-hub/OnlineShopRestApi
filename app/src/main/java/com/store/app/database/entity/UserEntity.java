@@ -1,8 +1,10 @@
 package com.store.app.database.entity;
 
 
+import com.store.app.dto.UserDto;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
@@ -63,6 +65,12 @@ public class UserEntity implements Serializable {
             joinColumns = @JoinColumn(name="user_id", referencedColumnName = "userId"),
             inverseJoinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id") )
     private Collection<RoleEntity> roles;
+
+    public UserEntity(){}
+
+    public UserEntity(UserDto userDto) {
+        BeanUtils.copyProperties(userDto, this);
+    }
 
     public String getEncryptedPassword() {
         return encryptedPassword;

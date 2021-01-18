@@ -84,10 +84,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void saveCartOrder(String publicCartId, String publicOrderId) {
-        CartEntity cartEntity = cartRepository.findByPublicCartId(publicCartId);
-        OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
+    public void saveCartForOrder(int cartId, int orderId) {
+        CartEntity cartEntity = cartRepository.findByCartId(cartId);
+        OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
         cartEntity.setOrderEntity(orderEntity);
+        cartRepository.save(cartEntity);
     }
 
     @Override

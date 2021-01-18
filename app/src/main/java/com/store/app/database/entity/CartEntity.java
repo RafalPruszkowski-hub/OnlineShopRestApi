@@ -1,6 +1,9 @@
 package com.store.app.database.entity;
 
 
+import com.store.app.dto.CartDto;
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -24,7 +27,7 @@ public class CartEntity implements Serializable {
     @JoinColumn(name = "userId")
     private UserEntity user;
     @OneToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+            cascade = { CascadeType.REFRESH})
 
     @JoinColumn(name = "order_id")
     private OrderEntity orderEntity;
@@ -35,6 +38,10 @@ public class CartEntity implements Serializable {
     }
 
     public CartEntity() {
+    }
+
+    public CartEntity(CartDto cartDto) {
+        BeanUtils.copyProperties(cartDto,this);
     }
 
     public Integer getCartId() {

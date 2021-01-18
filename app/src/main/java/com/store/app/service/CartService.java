@@ -11,5 +11,5 @@ public interface CartService {
 
     void updateTotalPrice(String publicUserId, double price);
 
-    void saveCartOrder(String publicCartId, String publicOrderId);
+    void saveCartForOrder(int cartId, int orderId);
 }

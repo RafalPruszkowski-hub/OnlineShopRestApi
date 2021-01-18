@@ -4,7 +4,9 @@ import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.OrderEntity;
 import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.entity.UserEntity;
+import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.OrderRepository;
+import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.*;
 import com.store.app.model.response.*;
 import com.store.app.service.CartService;
@@ -36,58 +38,68 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CartRepository cartRepository;
+
     @Override
     public OrderDto createOrder(String publicUserId) {
-        OrderDto returnValue = new OrderDto();
         OrderEntity orderEntity = new OrderEntity();
 
         //Set user
-        UserEntity userEntity = new UserEntity();
-        UserDto userDto = userService.getUser(publicUserId);
-        BeanUtils.copyProperties(userDto, userEntity);
+        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
         orderEntity.setUser(userEntity);
 
         //Set cart
-        CartEntity cartEntity = new CartEntity();
         CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
-        BeanUtils.copyProperties(cartDto, cartEntity);
+        CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
         orderEntity.setCart(cartEntity);
 
         //Set publicOrderId
         orderEntity.setPublicOrderId(UUID.randomUUID().toString());
 
         //Check if cart does not have more item then in stock
-        for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
-            int stock = cartItemTmp.getProduct().getQuantityOfStock();
-            if (stock <= cartItemTmp.getQuantity())
-                throw new RuntimeException("Sorry but you have put more products to cart then there is in stock " + cartItemTmp.getProduct().getPublicProductId());
-        }
+        checkIfEnoughtItemInStock(cartDto);
 
         //Check if cart contains any car items
-        if (cartDto.getCartItems().isEmpty())
-            throw new RuntimeException("Your cart is empty please put some item into it before making a order");
+        checkIfNotEmpty(cartDto);
 
         //Save Order
-        OrderEntity savedEntity = orderRepository.save(orderEntity);
+        orderRepository.save(orderEntity);
 
         //Update Products stock
-        for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
-            productService.updateProductStock(cartItemTmp.getQuantity(), cartItemTmp.getProduct().getPublicProductId());
-        }
-
-        //SetOrderForCart
-        cartService.saveCartOrder(savedEntity.getCart().getPublicCartId(), savedEntity.getPublicOrderId());
-
-
-        //Assigning nested objects value to
-        BeanUtils.copyProperties(orderEntity, returnValue);
-
-        returnValue.setUser(userService.getUser(publicUserId));
-        returnValue.setCart(cartService.getCartCurrentOnPublicUserId(publicUserId));
+        updateProductsInStock(cartDto);
 
         //Create New Cart
         cartService.createCart(publicUserId);
+
+        //Set and save cart for order
+        cartService.saveCartForOrder(orderEntity.getCart().getCartId(), orderEntity.getOrderId());
+
+
+        OrderDto returnValue = new OrderDto(orderEntity);
         return returnValue;
+    }
+
+    private void updateProductsInStock(CartDto cartDto) {
+        for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
+            productService.updateProductStock(cartItemTmp.getQuantity(), cartItemTmp.getProduct().getPublicProductId());
+        }
+    }
+
+    private void checkIfNotEmpty(CartDto cartDto) {
+        if (cartDto.getCartItems().isEmpty())
+            throw new RuntimeException("Your cart is empty please put some item into it before making a order");
+    }
+
+    private void checkIfEnoughtItemInStock(CartDto cartDto) {
+        for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
+            int stock = cartItemTmp.getProduct().getQuantityOfStock();
+            if (stock < cartItemTmp.getQuantity())
+                throw new RuntimeException("Sorry but you have put more products to cart then there is in stock " + cartItemTmp.getProduct().getPublicProductId());
+        }
     }
 
     @Override
