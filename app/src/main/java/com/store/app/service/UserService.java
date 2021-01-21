@@ -8,13 +8,13 @@ import java.util.List;
 
 @Service
 public interface UserService extends UserDetailsService {
-    UserDto createUser(UserDto user);
+    UserDto create(UserDto user);
 
-    UserDto getUser(String id);
+    UserDto get(String id);
 
-    UserDto updateUser(UserDto req, String id);
+    UserDto update(UserDto req, String id);
 
-    List<UserDto> getUsers(int page, int limit);
+    List<UserDto> getList(int page, int limit);
 
     UserDto getUserByEmail(String email);
 }

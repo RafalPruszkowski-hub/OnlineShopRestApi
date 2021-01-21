@@ -2,18 +2,15 @@ package com.store.app.serviceImpl;
 
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.OrderEntity;
-import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.OrderRepository;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.*;
-import com.store.app.model.response.*;
 import com.store.app.service.CartService;
 import com.store.app.service.OrderService;
 import com.store.app.service.ProductService;
 import com.store.app.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     CartRepository cartRepository;
 
     @Override
-    public OrderDto createOrder(String publicUserId) {
+    public OrderDto create(String publicUserId) {
         OrderEntity orderEntity = new OrderEntity();
 
         //Set user
@@ -53,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setUser(userEntity);
 
         //Set cart
-        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
+        CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
         orderEntity.setCart(cartEntity);
 
@@ -73,10 +70,10 @@ public class OrderServiceImpl implements OrderService {
         updateProductsInStock(cartDto);
 
         //Create New Cart
-        cartService.createCart(publicUserId);
+        cartService.create(publicUserId);
 
         //Set and save cart for order
-        cartService.saveCartForOrder(orderEntity.getCart().getCartId(), orderEntity.getOrderId());
+        cartService.saveForOrder(orderEntity.getCart().getCartId(), orderEntity.getOrderId());
 
 
         OrderDto returnValue = new OrderDto(orderEntity);
@@ -103,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getOrder(String publicOrderId) {
+    public OrderDto get(String publicOrderId) {
         OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
         OrderDto returnValue = new OrderDto(orderEntity);
 
@@ -111,8 +108,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getOrders(String publicUserId,
-                                              int page, int limit) {
+    public List<OrderDto> getList(String publicUserId,
+                                  int page, int limit) {
         List returnValue = new ArrayList<OrderDto>();
 
         Pageable pageableRequest = PageRequest.of(page, limit);

@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService {
     OrderRepository orderRepository;
 
     @Override
-    public CartDto getCartCurrentOnPublicUserId(String publicUserId) {
+    public CartDto getOnPublicUserId(String publicUserId) {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void saveCartForOrder(int cartId, int orderId) {
+    public void saveForOrder(int cartId, int orderId) {
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
         OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
         cartEntity.setOrderEntity(orderEntity);
@@ -92,7 +92,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto createCart(String userId) {
+    public CartDto create(String userId) {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(userId);

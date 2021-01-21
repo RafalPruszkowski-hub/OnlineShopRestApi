@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDto createUser(UserDto user) {
+    public UserDto create(UserDto user) {
         //TODO Create regex for not allowing misspelled inputs
         if (userRepository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record Already Exists");
 
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
-        cartService.createCart(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
+        cartService.create(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
 
         UserDto returnValue = new UserDto();
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUser(String publicUserId) {
+    public UserDto get(String publicUserId) {
         UserDto returnValue = new UserDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDto updateUser(UserDto userDto, String publicUserId) {
+    public UserDto update(UserDto userDto, String publicUserId) {
         //TODO Create regex for not allowing misspelled inputs
         UserDto returnValue = new UserDto();
 
@@ -91,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getUsers(int page, int limit) {
+    public List<UserDto> getList(int page, int limit) {
         List<UserDto> returnValue = new ArrayList<>();
 
         Pageable pageableRequest = PageRequest.of(page, limit);

@@ -7,13 +7,13 @@ import java.util.List;
 
 @Service
 public interface ProductService {
-    ProductDto createProduct(ProductDto productDto);
+    ProductDto create(ProductDto productDto);
 
-    ProductDto getProduct(String id);
+    ProductDto get(String id);
 
-    ProductDto updateProduct(ProductDto req, String id);
+    ProductDto update(ProductDto req, String id);
 
-    List<ProductDto> getProducts(int page, int limit);
+    List<ProductDto> getList(int page, int limit);
 
     ProductDto updateProductStock(int quantity, String publicProductId);
 }

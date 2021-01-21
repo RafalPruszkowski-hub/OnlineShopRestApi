@@ -1,13 +1,10 @@
 package com.store.app.controller;
 
-import com.store.app.dto.CartItemDto;
 import com.store.app.dto.OrderDto;
-import com.store.app.dto.ProductDto;
 import com.store.app.dto.UserDto;
 import com.store.app.model.response.*;
 import com.store.app.service.OrderService;
 import com.store.app.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +27,12 @@ public class OrderController {
     public OrderResponseModel createOrder(@PathVariable("id") String publicUserId,
                                           Principal principal) {
         //Check if it's correct user
-        UserDto userDto = userService.getUser(publicUserId);
+        UserDto userDto = userService.get(publicUserId);
         //TODO implement custom exception
         if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
         //creating new order and new cart that will be from this point used by user who called that method
-        OrderDto createdOrder = orderService.createOrder(publicUserId);
+        OrderDto createdOrder = orderService.create(publicUserId);
 
         OrderResponseModel returnValue = new OrderResponseModel(createdOrder);
 
@@ -47,11 +44,11 @@ public class OrderController {
                                        @PathVariable(name = "idOrder") String publicOrderId,
                                        Principal principal) {
         //Check if it's correct user
-        UserDto userDto = userService.getUser(publicUserId);
+        UserDto userDto = userService.get(publicUserId);
         //TODO implement custom exception
         if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
-        OrderDto orderDto = orderService.getOrder(publicOrderId);
+        OrderDto orderDto = orderService.get(publicOrderId);
 
         OrderResponseModel returnValue = new OrderResponseModel(orderDto);
 
@@ -64,12 +61,12 @@ public class OrderController {
                                               @RequestParam(value = "page", defaultValue = "0") int page,
                                               @RequestParam(value = "limit", defaultValue = "25") int limit) {
         //Check if it's correct user
-        UserDto userDto = userService.getUser(publicUserId);
+        UserDto userDto = userService.get(publicUserId);
         //TODO implement custom exception
         if (!principal.getName().equals(userDto.getEmail())) throw new RuntimeException("Wrong authorization header is provided");
 
 
-        List<OrderDto> orderDtoList = orderService.getOrders(publicUserId, page ,limit);
+        List<OrderDto> orderDtoList = orderService.getList(publicUserId, page ,limit);
 
         List<OrderResponseModel> returnValue = new ArrayList<>();
         for(OrderDto orderDto : orderDtoList){

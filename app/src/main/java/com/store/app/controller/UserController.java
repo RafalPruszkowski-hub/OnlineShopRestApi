@@ -34,7 +34,7 @@ public class UserController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public UserResponseModel getUser(@PathVariable("id") String userId, Principal principal) {
         UserResponseModel returnValue = new UserResponseModel();
-        UserDto userDto = userService.getUser(userId);
+        UserDto userDto = userService.get(userId);
 
         //TODO implement custom error message
         if (!userDto.getEmail().equals(principal.getName())) return null;
@@ -50,7 +50,7 @@ public class UserController {
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userDetailsRequestModel, userDto);
 
-        UserDto createdUser = userService.createUser(userDto);
+        UserDto createdUser = userService.create(userDto);
         BeanUtils.copyProperties(createdUser, returnValue);
 
         return returnValue;
@@ -63,7 +63,7 @@ public class UserController {
     ) {
         ArrayList<UserResponseModel> returnValue = new ArrayList<>();
 
-        List<UserDto> users = userService.getUsers(page, limit);
+        List<UserDto> users = userService.getList(page, limit);
 
         for (UserDto userDto : users) {
             UserResponseModel userResponseModel = new UserResponseModel();
@@ -85,7 +85,7 @@ public class UserController {
         //TODO implement custom error message
         if (!userDto.getEmail().equals(principal.getName())) return null;
 
-        UserDto updateUser = userService.updateUser(userDto, id);
+        UserDto updateUser = userService.update(userDto, id);
         BeanUtils.copyProperties(updateUser, returnValue);
 
         return returnValue;
@@ -96,7 +96,7 @@ public class UserController {
     public CartResponseModel getCurrentCart(@PathVariable("id") String userId, Principal principal) {
         CartResponseModel returnValue = new CartResponseModel();
 
-        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(userId);
+        CartDto cartDto = cartService.getOnPublicUserId(userId);
 
         //TODO implement custom error message
         if (!cartDto.getUser().getEmail().equals(principal.getName())) return null;

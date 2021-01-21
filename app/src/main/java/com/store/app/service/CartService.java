@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CartService {
-    CartDto createCart(String publicUserId);
+    CartDto create(String publicUserId);
 
-    CartDto getCartCurrentOnPublicUserId(String publicUserId);
+    CartDto getOnPublicUserId(String publicUserId);
 
     void updateTotalPrice(String publicUserId, double price);
 
-    void saveCartForOrder(int cartId, int orderId);
+    void saveForOrder(int cartId, int orderId);
 }

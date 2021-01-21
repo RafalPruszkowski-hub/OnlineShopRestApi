@@ -33,10 +33,10 @@ public class CartItemServiceImpl implements CartItemService {
     CartRepository cartRepository;
 
     @Override
-    public CartItemDtoReturnCreating createCartItem(String publicUserId, String publicProductId, CartItemDto cartItemDto) {
+    public CartItemDtoReturnCreating create(String publicUserId, String publicProductId, CartItemDto cartItemDto) {
         CartItemDtoReturnCreating returnValue = new CartItemDtoReturnCreating();
 
-        CartDto cartDto = cartService.getCartCurrentOnPublicUserId(publicUserId);
+        CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
 
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);

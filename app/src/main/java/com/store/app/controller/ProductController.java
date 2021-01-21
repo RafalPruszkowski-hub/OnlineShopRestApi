@@ -1,10 +1,8 @@
 package com.store.app.controller;
 
 
-import com.store.app.dto.CartDto;
 import com.store.app.dto.ProductDto;
 import com.store.app.model.request.ProductDetailsRequestModel;
-import com.store.app.model.response.CartResponseModel;
 import com.store.app.model.response.ProductResponseModel;
 import com.store.app.service.CartService;
 import com.store.app.service.ProductService;
@@ -28,7 +26,7 @@ public class ProductController {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
 
-        ProductDto createdProduct = productService.createProduct(productDto);
+        ProductDto createdProduct = productService.create(productDto);
         ProductResponseModel returnValue = new ProductResponseModel(createdProduct);
 
         return returnValue;
@@ -37,7 +35,7 @@ public class ProductController {
 
     @GetMapping(path = "/{productId}")
     public ProductResponseModel getProduct(@PathVariable(name = "productId") String productId) {
-        ProductDto productDto = productService.getProduct(productId);
+        ProductDto productDto = productService.get(productId);
         ProductResponseModel returnValue = new ProductResponseModel(productDto);
 
         return returnValue;
@@ -50,7 +48,7 @@ public class ProductController {
         productDto.setPublicProductId(productId);
 
 
-        ProductDto createdProduct = productService.updateProduct(productDto, productId);
+        ProductDto createdProduct = productService.update(productDto, productId);
         ProductResponseModel returnValue = new ProductResponseModel(createdProduct);
 
         return returnValue;
@@ -59,11 +57,11 @@ public class ProductController {
     @GetMapping
     public List<ProductResponseModel> getProducts(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "limit", defaultValue = "25") int limit
+            @RequestParam(value = "limit", defaultValue = "10") int limit
     ) {
         List<ProductResponseModel> returnValue = new ArrayList();
 
-        List<ProductDto> productDtoList = productService.getProducts(page, limit);
+        List<ProductDto> productDtoList = productService.getList(page, limit);
 
         for (ProductDto productDto : productDtoList) {
             ProductResponseModel productResponseModel = new ProductResponseModel(productDto);

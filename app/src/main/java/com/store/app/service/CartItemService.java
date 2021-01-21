@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CartItemService {
-    CartItemDtoReturnCreating createCartItem(String publicUserId, String publicProductId, CartItemDto cartItemDto);
+    CartItemDtoReturnCreating create(String publicUserId, String publicProductId, CartItemDto cartItemDto);
 }

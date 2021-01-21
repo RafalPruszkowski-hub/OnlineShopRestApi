@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public ProductDto createProduct(ProductDto productDto) {
+    public ProductDto create(ProductDto productDto) {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = new ProductEntity();
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getProduct(String id) {
+    public ProductDto get(String id) {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(id);
@@ -48,21 +48,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto updateProduct(ProductDto productDto, String id) {
+    public ProductDto update(ProductDto productDto, String id) {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(id);
 
 
         if (productDto.getProductBrand() != null) productEntity.setProductBrand(productDto.getProductBrand());
-        if (productDto.getProductDescription() != null)
-            productEntity.setProductDescription(productDto.getProductDescription());
+        if (productDto.getProductDescription() != null) productEntity.setProductDescription(productDto.getProductDescription());
         if (productDto.getProductModel() != null) productEntity.setProductModel(productDto.getProductModel());
         if (productDto.getProductName() != null) productEntity.setProductName(productDto.getProductName());
 
         //TODO MAKE THIS WORK LATER
-        //if(productDto.getProductPrice()!=null) productEntity.setProductPrice(productEntity.getProductPrice());
-        //if(productDto.getQuantityOfStock()!=null) productEntity.setQuantityOfStock(productEntity.getQuantityOfStock());
+        //if(productDto.getProductPrice()!=null) productEntity.setProductPrice(productDto.getProductPrice());
+        //if(productDto.getQuantityOfStock()!=null) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
 
         ProductEntity updatedUser = productRepository.save(productEntity);
         BeanUtils.copyProperties(updatedUser, returnValue);
@@ -72,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProducts(int page, int limit) {
+    public List<ProductDto> getList(int page, int limit) {
         List<ProductDto> returnValue = new ArrayList();
 
         Pageable pageableRequest = PageRequest.of(page, limit);
@@ -81,8 +80,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> products = productPage.getContent();
 
         for (ProductEntity productEntity : products) {
-            ProductDto productDto = new ProductDto();
-            BeanUtils.copyProperties(productEntity, productDto);
+            ProductDto productDto = new ProductDto(productEntity);
             returnValue.add(productDto);
         }
         return returnValue;
