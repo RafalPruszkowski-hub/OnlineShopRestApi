@@ -7,6 +7,9 @@ import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.OrderRepository;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.*;
+import com.store.app.exception.cart.CartNotFoundException;
+import com.store.app.exception.order.OrderNotFoundException;
+import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.service.CartService;
 import com.store.app.service.OrderService;
 import com.store.app.service.ProductService;
@@ -47,18 +50,20 @@ public class OrderServiceImpl implements OrderService {
 
         //Set user
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
+        if(userEntity==null) throw new UserNotFoundException(publicUserId);
         orderEntity.setUser(userEntity);
 
         //Set cart
         CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
+        if(cartEntity ==null) throw new CartNotFoundException();
         orderEntity.setCart(cartEntity);
 
         //Set publicOrderId
         orderEntity.setPublicOrderId(UUID.randomUUID().toString());
 
         //Check if cart does not have more item then in stock
-        checkIfEnoughtItemInStock(cartDto);
+        checkIfEnoughItemInStock(cartDto);
 
         //Check if cart contains any car items
         checkIfNotEmpty(cartDto);
@@ -91,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Your cart is empty please put some item into it before making a order");
     }
 
-    private void checkIfEnoughtItemInStock(CartDto cartDto) {
+    private void checkIfEnoughItemInStock(CartDto cartDto) {
         for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
             int stock = cartItemTmp.getProduct().getQuantityOfStock();
             if (stock < cartItemTmp.getQuantity())
@@ -102,8 +107,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto get(String publicOrderId) {
         OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
-        OrderDto returnValue = new OrderDto(orderEntity);
+        if (orderEntity==null) throw new OrderNotFoundException();
 
+        OrderDto returnValue = new OrderDto(orderEntity);
         return returnValue;
     }
 

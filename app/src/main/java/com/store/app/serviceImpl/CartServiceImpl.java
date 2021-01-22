@@ -12,6 +12,9 @@ import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
 import com.store.app.dto.ProductDto;
 import com.store.app.dto.UserDto;
+import com.store.app.exception.cart.CartNotFoundException;
+import com.store.app.exception.order.OrderNotFoundException;
+import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.service.CartService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +40,11 @@ public class CartServiceImpl implements CartService {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
+        if(userEntity == null) throw new UserNotFoundException(publicUserId);
 
         int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
+        if(cartEntity == null) throw new CartNotFoundException();
 
 
         BeanUtils.copyProperties(cartEntity, returnValue);
@@ -69,9 +74,13 @@ public class CartServiceImpl implements CartService {
     //SOMEHOW NOT WORKING FIX IT PLS
     @Override
     public void updateTotalPrice(String publicUserId, double price) {
+
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
+        if (userEntity == null) throw new UserNotFoundException(publicUserId);
+
         int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
+        if(cartEntity==null) throw new CartNotFoundException();
 
         double tmp = price;
 
@@ -86,7 +95,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public void saveForOrder(int cartId, int orderId) {
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
+        if(cartEntity ==null )throw new CartNotFoundException();
+
         OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
+        if(orderEntity==null) throw new OrderNotFoundException();
+
         cartEntity.setOrderEntity(orderEntity);
         cartRepository.save(cartEntity);
     }
@@ -96,13 +109,12 @@ public class CartServiceImpl implements CartService {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(userId);
+        if(userEntity == null) throw new UserNotFoundException();
 
         CartEntity cartEntity = new CartEntity(userEntity);
         cartEntity.setPublicCartId(UUID.randomUUID().toString());
 
-
         CartEntity storedCart = cartRepository.save(cartEntity);
-
         BeanUtils.copyProperties(storedCart, returnValue);
 
         return returnValue;

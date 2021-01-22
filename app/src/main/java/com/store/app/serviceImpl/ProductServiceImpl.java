@@ -3,6 +3,7 @@ package com.store.app.serviceImpl;
 import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.ProductDto;
+import com.store.app.exception.product.ProductNotFoundException;
 import com.store.app.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(id);
-        if (productEntity == null) throw new RuntimeException("Record not Found");
+        if (productEntity == null) throw new ProductNotFoundException();
         BeanUtils.copyProperties(productEntity, returnValue);
 
         return returnValue;
@@ -52,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(id);
+        if(productEntity == null) throw new ProductNotFoundException();
 
 
         if (productDto.getProductBrand() != null) productEntity.setProductBrand(productDto.getProductBrand());
@@ -88,10 +90,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto updateProductStock(int quantity, String publicProductId) {
+        ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
+        if(productEntity == null) throw new ProductNotFoundException();
+
         ProductDto returnValue = new ProductDto();
 
-        ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
-        productEntity.setQuantityOfStock(productEntity.getQuantityOfStock() - quantity);
+                productEntity.setQuantityOfStock(productEntity.getQuantityOfStock() - quantity);
         ProductEntity storedEntity = productRepository.save(productEntity);
 
         BeanUtils.copyProperties(storedEntity, returnValue);

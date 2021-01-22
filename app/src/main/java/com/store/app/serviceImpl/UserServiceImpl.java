@@ -3,6 +3,7 @@ package com.store.app.serviceImpl;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.UserDto;
+import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
         UserDto returnValue = new UserDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-        if (userEntity == null) throw new RuntimeException("Record not Found");
+        if (userEntity == null) throw new UserNotFoundException();
         BeanUtils.copyProperties(userEntity, returnValue);
 
         return returnValue;
@@ -69,11 +70,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto, String publicUserId) {
-        //TODO Create regex for not allowing misspelled inputs
         UserDto returnValue = new UserDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-        if (userEntity == null) throw new RuntimeException("No record found with this id " + publicUserId);
+        if (userEntity == null) throw new UserNotFoundException();
 
 
         if (userDto.getFirstName() != null) userEntity.setFirstName(userDto.getFirstName());
@@ -111,7 +111,6 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UsernameNotFoundException(email);
-        /*return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());*/
         return new UserPrincipal(userEntity);
     }
 

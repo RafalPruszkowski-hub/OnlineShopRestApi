@@ -9,6 +9,8 @@ import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
 import com.store.app.dto.CartItemDtoReturnCreating;
+import com.store.app.exception.cart.CartNotFoundException;
+import com.store.app.exception.product.ProductAlreadyInCartException;
 import com.store.app.model.response.ProductResponseModel;
 import com.store.app.service.CartItemService;
 import com.store.app.service.CartService;
@@ -38,15 +40,17 @@ public class CartItemServiceImpl implements CartItemService {
 
         CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
+        if(cartEntity==null) throw new CartNotFoundException();
+
 
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
 
-        //Check if the record already exist in table and if yes throw runtime exception
+        //Check if the record already exist in table and if yes throw exception
 
         //if(cartEntity.getCartItems().isEmpty()){ } else {
         for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
             if (cartItemEntity.getProduct().getPublicProductId().equals(publicProductId)) {
-                throw new RuntimeException("Product already exist in your cart.");
+                throw new ProductAlreadyInCartException(publicProductId);
             }
         }
         //}

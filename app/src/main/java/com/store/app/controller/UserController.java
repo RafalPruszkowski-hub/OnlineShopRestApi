@@ -98,9 +98,6 @@ public class UserController {
 
         CartDto cartDto = cartService.getOnPublicUserId(userId);
 
-        //TODO implement custom error message
-        if (!cartDto.getUser().getEmail().equals(principal.getName())) return null;
-
         BeanUtils.copyProperties(cartDto, returnValue);
 
         //Creating ResponseModels for products and cartItems to hide database ID
