@@ -7,8 +7,10 @@ import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.OrderRepository;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.*;
+import com.store.app.exception.cart.CartIsEmptyException;
 import com.store.app.exception.cart.CartNotFoundException;
 import com.store.app.exception.order.OrderNotFoundException;
+import com.store.app.exception.product.ProductOutOfStockException;
 import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.service.CartService;
 import com.store.app.service.OrderService;
@@ -93,14 +95,14 @@ public class OrderServiceImpl implements OrderService {
 
     private void checkIfNotEmpty(CartDto cartDto) {
         if (cartDto.getCartItems().isEmpty())
-            throw new RuntimeException("Your cart is empty please put some item into it before making a order");
+            throw new CartIsEmptyException();
     }
 
     private void checkIfEnoughItemInStock(CartDto cartDto) {
         for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
             int stock = cartItemTmp.getProduct().getQuantityOfStock();
             if (stock < cartItemTmp.getQuantity())
-                throw new RuntimeException("Sorry but you have put more products to cart then there is in stock " + cartItemTmp.getProduct().getPublicProductId());
+                throw new ProductOutOfStockException(cartItemTmp.getProduct().getPublicProductId());
         }
     }
 

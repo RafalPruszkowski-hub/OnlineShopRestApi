@@ -3,6 +3,7 @@ package com.store.app.serviceImpl;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.UserDto;
+import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto create(UserDto user) {
         //TODO Create regex for not allowing misspelled inputs
-        if (userRepository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record Already Exists");
+        if (userRepository.findByEmail(user.getEmail()) != null) throw new UserAlreadyExistException(user.getEmail());
 
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
