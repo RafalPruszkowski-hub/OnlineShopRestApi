@@ -8,7 +8,7 @@ import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
-import com.store.app.dto.CartItemDtoReturnCreating;
+
 import com.store.app.exception.cart.CartNotFoundException;
 import com.store.app.exception.product.ProductAlreadyInCartException;
 import com.store.app.model.response.ProductResponseModel;
@@ -35,8 +35,7 @@ public class CartItemServiceImpl implements CartItemService {
     CartRepository cartRepository;
 
     @Override
-    public CartItemDtoReturnCreating create(String publicUserId, String publicProductId, CartItemDto cartItemDto) {
-        CartItemDtoReturnCreating returnValue = new CartItemDtoReturnCreating();
+    public CartItemDto create(String publicUserId, String publicProductId, CartItemDto cartItemDto) {
 
         CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
@@ -65,17 +64,14 @@ public class CartItemServiceImpl implements CartItemService {
 
         //saving item into database
         CartItemEntity storedCartItem = cartItemRepository.save(cartItemEntity);
-        BeanUtils.copyProperties(storedCartItem, returnValue);
 
 
         //Update total price for the cart that item is added to
         cartService.updateTotalPrice(publicUserId, cartItemEntity.getProductsPrice());
 
 
-        //Setting properties for return value
-        ProductResponseModel productResponseModel = new ProductResponseModel();
-        BeanUtils.copyProperties(storedCartItem.getProduct(), productResponseModel);
-        returnValue.setProduct(productResponseModel);
+        //Creating return value
+        CartItemDto returnValue = new CartItemDto(storedCartItem);
 
         return returnValue;
     }

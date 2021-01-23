@@ -1,7 +1,6 @@
 package com.store.app.controller;
 
 import com.store.app.dto.CartItemDto;
-import com.store.app.dto.CartItemDtoReturnCreating;
 import com.store.app.model.request.CartItemDetailsRequest;
 import com.store.app.model.response.CartItemResponseModel;
 import com.store.app.service.CartItemService;
@@ -27,12 +26,12 @@ public class CartItemController {
                                                 @RequestBody CartItemDetailsRequest cartItemDetailsRequest,
                                                 Principal principal) {
         if (!principal.getName().equals(userService.get(publicUserId).getEmail())) throw new RuntimeException("Wrong authorization header is provided");
-        CartItemResponseModel returnValue = new CartItemResponseModel();
+
         CartItemDto cartItemDto = new CartItemDto();
         BeanUtils.copyProperties(cartItemDetailsRequest, cartItemDto);
 
-        CartItemDtoReturnCreating storedCartItem = cartItemService.create(publicUserId, publicProductId, cartItemDto);
-        BeanUtils.copyProperties(storedCartItem, returnValue);
+        CartItemDto storedCartItem = cartItemService.create(publicUserId, publicProductId, cartItemDto);
+        CartItemResponseModel returnValue = new CartItemResponseModel(storedCartItem);
 
         return returnValue;
     }
