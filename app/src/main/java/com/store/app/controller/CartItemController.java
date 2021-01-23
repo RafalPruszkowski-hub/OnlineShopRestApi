@@ -20,17 +20,15 @@ public class CartItemController {
     UserService userService;
 
     @PostMapping
-    @RequestMapping(path = "/users/{publicUserId}/product/{publicProductId}")
-    public CartItemResponseModel createCartItem(@PathVariable("publicUserId") String publicUserId,
+    @RequestMapping(path = "/product/{publicProductId}")
+    public CartItemResponseModel createCartItem(
                                                 @PathVariable("publicProductId") String publicProductId,
                                                 @RequestBody CartItemDetailsRequest cartItemDetailsRequest,
                                                 Principal principal) {
-        if (!principal.getName().equals(userService.get(publicUserId).getEmail())) throw new RuntimeException("Wrong authorization header is provided");
+        String email = principal.getName();
+        CartItemDto cartItemDto = new CartItemDto(cartItemDetailsRequest);
 
-        CartItemDto cartItemDto = new CartItemDto();
-        BeanUtils.copyProperties(cartItemDetailsRequest, cartItemDto);
-
-        CartItemDto storedCartItem = cartItemService.create(publicUserId, publicProductId, cartItemDto);
+        CartItemDto storedCartItem = cartItemService.create(email, publicProductId, cartItemDto);
         CartItemResponseModel returnValue = new CartItemResponseModel(storedCartItem);
 
         return returnValue;

@@ -9,6 +9,8 @@ public interface CartService {
 
     CartDto getOnPublicUserId(String publicUserId);
 
+    CartDto getOnUserEmail(String email);
+
     void updateTotalPrice(String publicUserId, double price);
 
     void saveForOrder(int cartId, int orderId);

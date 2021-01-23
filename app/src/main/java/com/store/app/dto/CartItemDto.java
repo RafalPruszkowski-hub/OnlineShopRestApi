@@ -1,6 +1,7 @@
 package com.store.app.dto;
 
 import com.store.app.database.entity.CartItemEntity;
+import com.store.app.model.request.CartItemDetailsRequest;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -23,5 +24,9 @@ public class CartItemDto implements Serializable {
     public CartItemDto(CartItemEntity cartItemEntity) {
         BeanUtils.copyProperties(cartItemEntity,this);
         product = new ProductDto(cartItemEntity.getProduct());
+    }
+
+    public CartItemDto(CartItemDetailsRequest cartItemDetailsRequest) {
+        BeanUtils.copyProperties(cartItemDetailsRequest,this);
     }
 }

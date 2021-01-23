@@ -71,6 +71,44 @@ public class CartServiceImpl implements CartService {
         return returnValue;
     }
 
+    @Override
+    public CartDto getOnUserEmail(String email) {
+        CartDto returnValue = new CartDto();
+
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if(userEntity == null) throw new UserNotFoundException();
+
+        int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
+        CartEntity cartEntity = cartRepository.findByCartId(cartId);
+        if(cartEntity == null) throw new CartNotFoundException();
+
+
+        BeanUtils.copyProperties(cartEntity, returnValue);
+
+        //Setting user as dto for return value
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userEntity, userDto);
+        returnValue.setUser(userDto);
+
+        //Setting list of carts as list of dto items for return value
+        List<CartItemDto> returnItems = new ArrayList<>();
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+            CartItemDto cartItemDto = new CartItemDto();
+            BeanUtils.copyProperties(cartItemEntity, cartItemDto);
+            //to not allow infinite loop occurs while senting cartItems to return value
+            cartItemDto.setCart(null);
+            ProductDto productDto = new ProductDto();
+            BeanUtils.copyProperties(cartItemEntity.getProduct(), productDto);
+            cartItemDto.setProduct(productDto);
+            returnItems.add(cartItemDto);
+        }
+        returnValue.setCartItems(returnItems);
+
+        return returnValue;
+    }
+
+
+
     //SOMEHOW NOT WORKING FIX IT PLS
     @Override
     public void updateTotalPrice(String publicUserId, double price) {
