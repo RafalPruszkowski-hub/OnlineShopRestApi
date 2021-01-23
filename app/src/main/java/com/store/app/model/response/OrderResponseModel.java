@@ -1,8 +1,12 @@
 package com.store.app.model.response;
 
 import com.store.app.dto.OrderDto;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
+@Getter
+@Setter
 public class OrderResponseModel {
     private String publicOrderId;
     private UserResponseModel user;
@@ -15,29 +19,5 @@ public class OrderResponseModel {
         BeanUtils.copyProperties(orderDto,this);
         user = new UserResponseModel(orderDto.getUser());
         cart = new CartResponseModel(orderDto.getCart());
-    }
-
-    public String getPublicOrderId() {
-        return publicOrderId;
-    }
-
-    public void setPublicOrderId(String publicOrderId) {
-        this.publicOrderId = publicOrderId;
-    }
-
-    public CartResponseModel getCart() {
-        return cart;
-    }
-
-    public void setCart(CartResponseModel cart) {
-        this.cart = cart;
-    }
-
-    public UserResponseModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserResponseModel user) {
-        this.user = user;
     }
 }

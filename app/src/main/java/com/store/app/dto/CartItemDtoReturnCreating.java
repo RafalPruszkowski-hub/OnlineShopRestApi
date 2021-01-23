@@ -1,9 +1,13 @@
 package com.store.app.dto;
 
 import com.store.app.model.response.ProductResponseModel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class CartItemDtoReturnCreating implements Serializable {
     private static final long serialVersionUID = -4121766793091890797L;
     private Integer cartItemId;

@@ -1,9 +1,14 @@
 package com.store.app.database.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
+@Getter
+@Setter
 @Entity
 @Table(name="authorities")
 public class AuthorityEntity implements Serializable {
@@ -21,23 +26,4 @@ public class AuthorityEntity implements Serializable {
         this.name=name;
     }
     public AuthorityEntity(){}
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public Collection<RoleEntity> getRoles() {
-        return roles;
-    }
-    public void setRoles(Collection<RoleEntity> roles) {
-        this.roles = roles;
-    }
 }

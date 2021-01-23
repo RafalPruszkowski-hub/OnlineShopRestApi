@@ -1,8 +1,12 @@
 package com.store.app.model.response;
 
 import com.store.app.dto.UserDto;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
+@Getter
+@Setter
 public class UserResponseModel {
     private String publicUserId;
     private String firstName;
@@ -16,74 +20,5 @@ public class UserResponseModel {
 
     public UserResponseModel(UserDto userDto) {
         BeanUtils.copyProperties(userDto,this);
-    }
-
-    public String getPublicUserId() {
-        return publicUserId;
-    }
-
-    public void setPublicUserId(String publicUserId) {
-        this.publicUserId = publicUserId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "UserResponseModel{" +
-                "publicUserId='" + publicUserId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

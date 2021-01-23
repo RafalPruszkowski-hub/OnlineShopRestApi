@@ -2,6 +2,8 @@ package com.store.app.database.entity;
 
 
 import com.store.app.dto.UserDto;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity(name = "users")
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -70,101 +74,5 @@ public class UserEntity implements Serializable {
 
     public UserEntity(UserDto userDto) {
         BeanUtils.copyProperties(userDto, this);
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getPublicUserId() {
-        return publicUserId;
-    }
-
-    public void setPublicUserId(String publicUserId) {
-        this.publicUserId = publicUserId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<CartEntity> getCart() {
-        return cart;
-    }
-
-    public void setCart(List<CartEntity> cart) {
-        this.cart = cart;
-    }
-
-    public List<OrderEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderEntity> orders) {
-        this.orders = orders;
-    }
-
-    public Collection<RoleEntity> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<RoleEntity> roles) {
-        this.roles = roles;
     }
 }

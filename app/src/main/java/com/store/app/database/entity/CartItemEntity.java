@@ -1,10 +1,14 @@
 package com.store.app.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity(name = "cart_items")
 public class CartItemEntity implements Serializable {
     private static final long serialVersionUID = 2L;
@@ -38,53 +42,4 @@ public class CartItemEntity implements Serializable {
     public CartItemEntity(CartEntity cart, ProductEntity product) {
         this.cart = cart;
         this.product = product;
-    }
-
-    public Integer getCartItemId() {
-        return cartItemId;
-    }
-
-    public void setCartItemId(Integer cartItemId) {
-        this.cartItemId = cartItemId;
-    }
-
-    public String getPublicCartItemId() {
-        return publicCartItemId;
-    }
-
-    public void setPublicCartItemId(String publicCartItemId) {
-        this.publicCartItemId = publicCartItemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getProductsPrice() {
-        return productsPrice;
-    }
-
-    public void setProductsPrice(double productsPrice) {
-        this.productsPrice = productsPrice;
-    }
-
-    public CartEntity getCart() {
-        return cart;
-    }
-
-    public void setCart(CartEntity cart) {
-        this.cart = cart;
-    }
-
-    public ProductEntity getProduct() {
-        return product;
-    }
-
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
-}
+    }}

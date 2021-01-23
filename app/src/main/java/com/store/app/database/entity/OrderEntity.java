@@ -1,10 +1,14 @@
 package com.store.app.database.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+@Getter
+@Setter
 @Entity(name = "orders")
-
 public class OrderEntity {
     @Id
     @Column
@@ -24,36 +28,4 @@ public class OrderEntity {
             cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "user_Id")
     private UserEntity user;
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getPublicOrderId() {
-        return publicOrderId;
-    }
-
-    public void setPublicOrderId(String publicOrderId) {
-        this.publicOrderId = publicOrderId;
-    }
-
-    public CartEntity getCart() {
-        return cart;
-    }
-
-    public void setCart(CartEntity cart) {
-        this.cart = cart;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
 }
