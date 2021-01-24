@@ -8,9 +8,7 @@ import java.util.List;
 
 @Service
 public interface OrderService {
-    OrderDto create(String publicUserId);
-
-    OrderDto get(String publicUserId);
-
-    List<OrderDto> getList(String publicUserId, int page, int limit);
+    OrderDto create(String email);
+    OrderDto get(String email, String publicOrderId);
+    List<OrderDto> getList(String email, int page, int limit);
 }

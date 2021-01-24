@@ -9,6 +9,8 @@ import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.*;
 import com.store.app.exception.cart.CartIsEmptyException;
 import com.store.app.exception.cart.CartNotFoundException;
+
+import com.store.app.exception.NotAuthorizedException;
 import com.store.app.exception.order.OrderNotFoundException;
 import com.store.app.exception.product.ProductOutOfStockException;
 import com.store.app.exception.user.UserNotFoundException;
@@ -47,25 +49,24 @@ public class OrderServiceImpl implements OrderService {
     CartRepository cartRepository;
 
     @Override
-    public OrderDto create(String publicUserId) {
+    public OrderDto create(String email) {
         OrderEntity orderEntity = new OrderEntity();
 
         //Set user
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-        if(userEntity==null) throw new UserNotFoundException(publicUserId);
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if(userEntity==null) throw new UserNotFoundException();
         orderEntity.setUser(userEntity);
 
         //Set cart
-        CartDto cartDto = cartService.getOnPublicUserId(publicUserId);
+        CartDto cartDto = cartService.getOnPublicUserId(userEntity.getPublicUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
         if(cartEntity ==null) throw new CartNotFoundException();
-        orderEntity.setCart(cartEntity);
 
-        //Set publicOrderId
+        orderEntity.setCart(cartEntity);
         orderEntity.setPublicOrderId(UUID.randomUUID().toString());
 
         //Check if cart does not have more item then in stock
-        checkIfEnoughItemInStock(cartDto);
+        checkIfEnoughItemsInStock(cartDto);
 
         //Check if cart contains any car items
         checkIfNotEmpty(cartDto);
@@ -73,11 +74,9 @@ public class OrderServiceImpl implements OrderService {
         //Save Order
         orderRepository.save(orderEntity);
 
-        //Update Products stock
         updateProductsInStock(cartDto);
 
-        //Create New Cart
-        cartService.create(publicUserId);
+        cartService.create(userEntity.getPublicUserId());
 
         //Set and save cart for order
         cartService.saveForOrder(orderEntity.getCart().getCartId(), orderEntity.getOrderId());
@@ -98,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
             throw new CartIsEmptyException();
     }
 
-    private void checkIfEnoughItemInStock(CartDto cartDto) {
+    private void checkIfEnoughItemsInStock(CartDto cartDto) {
         for (CartItemDto cartItemTmp : cartDto.getCartItems()) {
             int stock = cartItemTmp.getProduct().getQuantityOfStock();
             if (stock < cartItemTmp.getQuantity())
@@ -107,26 +106,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto get(String publicOrderId) {
+    public OrderDto get(String email, String publicOrderId) {
+        UserEntity userEntity = userRepository.findByEmail(email);
         OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
         if (orderEntity==null) throw new OrderNotFoundException();
+        if (orderEntity.getUser().getUserId()==userEntity.getUserId()) throw new NotAuthorizedException();
 
         OrderDto returnValue = new OrderDto(orderEntity);
         return returnValue;
     }
 
     @Override
-    public List<OrderDto> getList(String publicUserId,
-                                  int page, int limit) {
+    public List<OrderDto> getList(String email, int page, int limit) {
         List returnValue = new ArrayList<OrderDto>();
+
+        //UserEntity userEntity = userRepository.findByEmail(email);
 
         Pageable pageableRequest = PageRequest.of(page, limit);
         Page<OrderEntity> productPage = orderRepository.findAll(pageableRequest);
         List<OrderEntity> orders = productPage.getContent();
 
         for (OrderEntity orderEntity : orders) {
-            OrderDto orderDto = new OrderDto(orderEntity);
-            returnValue.add(orderDto);
+            // TODO Write Query that will not need this if
+            if(orderEntity.getUser().getEmail().equals(email)){
+                OrderDto orderDto = new OrderDto(orderEntity);
+                returnValue.add(orderDto);
+            }
+
         }
 
         return returnValue;

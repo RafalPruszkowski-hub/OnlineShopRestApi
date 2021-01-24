@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, Integer> {
     List<OrderEntity> findByUser(UserEntity userEntity);
-
     OrderEntity findByPublicOrderId(String publicOrderId);
-
     OrderEntity findByOrderId(int orderId);
 }
