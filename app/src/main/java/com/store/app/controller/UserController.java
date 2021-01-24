@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -32,87 +32,59 @@ public class UserController {
     @GetMapping(path = "/{id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel getUser(@PathVariable("id") String userId, Principal principal) {
-        UserResponseModel returnValue = new UserResponseModel();
-        UserDto userDto = userService.get(userId);
+    public UserResponseModel getUser(Principal principal) {
+        UserDto userDto = userService.get(principal.getName());
 
-        //TODO implement custom error message
-        if (!userDto.getEmail().equals(principal.getName())) return null;
+        UserResponseModel returnValue = new UserResponseModel(userDto);
 
         BeanUtils.copyProperties(userDto, returnValue);
         return returnValue;
     }
 
-    @PostMapping
+    @PostMapping(path = "/register")
     public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel) {
-        UserResponseModel returnValue = new UserResponseModel();
-
-        UserDto userDto = new UserDto();
-        BeanUtils.copyProperties(userDetailsRequestModel, userDto);
-
+        UserDto userDto = new UserDto(userDetailsRequestModel);
         UserDto createdUser = userService.create(userDto);
-        BeanUtils.copyProperties(createdUser, returnValue);
+        UserResponseModel returnValue = new UserResponseModel(createdUser);
 
         return returnValue;
     }
 
-    @GetMapping
+    @GetMapping(path="s")
     public ArrayList<UserResponseModel> getUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "25") int limit
     ) {
-        ArrayList<UserResponseModel> returnValue = new ArrayList<>();
-
         List<UserDto> users = userService.getList(page, limit);
 
+        ArrayList<UserResponseModel> returnValue = new ArrayList<>();
         for (UserDto userDto : users) {
-            UserResponseModel userResponseModel = new UserResponseModel();
-            BeanUtils.copyProperties(userDto, userResponseModel);
+            UserResponseModel userResponseModel = new UserResponseModel(userDto);
             returnValue.add(userResponseModel);
         }
+
         return returnValue;
     }
 
-    @PutMapping(path = "/{id}",
+    @PutMapping(path = "/edit",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel updateUser(@PathVariable("id") String id, @RequestBody UserDetailsRequestModel userDetailsRequestModel, Principal principal) {
-        UserResponseModel returnValue = new UserResponseModel();
+    public UserResponseModel updateUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel, Principal principal) {
+        UserDto userDto = new UserDto(userDetailsRequestModel);
 
-        UserDto userDto = new UserDto();
-        BeanUtils.copyProperties(userDetailsRequestModel, userDto);
-
-        //TODO implement custom error message
-        if (!userDto.getEmail().equals(principal.getName())) return null;
-
-        UserDto updateUser = userService.update(userDto, id);
-        BeanUtils.copyProperties(updateUser, returnValue);
+        UserDto updatedUser = userService.update(userDto, principal.getName());
+        UserResponseModel returnValue = new UserResponseModel(updatedUser);
 
         return returnValue;
     }
 
     @GetMapping
-    @RequestMapping(path = "/{id}/cart")
-    public CartResponseModel getCurrentCart(@PathVariable("id") String userId, Principal principal) {
-        CartResponseModel returnValue = new CartResponseModel();
+    @RequestMapping(path = "/cart")
+    public CartResponseModel getCurrentCart(Principal principal) {
+        CartDto cartDto = cartService.getOnUserEmail(principal.getName());
 
-        CartDto cartDto = cartService.getOnPublicUserId(userId);
+        CartResponseModel returnValue = new CartResponseModel(cartDto);
 
-        BeanUtils.copyProperties(cartDto, returnValue);
-
-        //Creating ResponseModels for products and cartItems to hide database ID
-        List<CartItemResponseModel> returnItems = new ArrayList<>();
-        for (CartItemDto cartItemDto : cartDto.getCartItems()) {
-            CartItemResponseModel cartItemResponseModel = new CartItemResponseModel();
-            BeanUtils.copyProperties(cartItemDto, cartItemResponseModel);
-
-            ProductResponseModel productResponseModel = new ProductResponseModel();
-            BeanUtils.copyProperties(cartItemDto.getProduct(), productResponseModel);
-
-            cartItemResponseModel.setProduct(productResponseModel);
-            returnItems.add(cartItemResponseModel);
-        }
-        returnValue.setCartItems(returnItems);
         return returnValue;
     }
 }

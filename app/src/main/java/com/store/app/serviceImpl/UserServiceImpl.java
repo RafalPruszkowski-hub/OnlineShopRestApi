@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto create(UserDto user) {
-        //TODO Create regex for not allowing misspelled inputs
         if (userRepository.findByEmail(user.getEmail()) != null) throw new UserAlreadyExistException(user.getEmail());
 
         UserEntity userEntity = new UserEntity();
@@ -50,7 +49,6 @@ public class UserServiceImpl implements UserService {
         UserEntity storedUserDetails = userRepository.save(userEntity);
         cartService.create(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
-
         UserDto returnValue = new UserDto();
         BeanUtils.copyProperties(storedUserDetails, returnValue);
 
@@ -58,36 +56,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto get(String publicUserId) {
-        UserDto returnValue = new UserDto();
+    public UserDto get(String email) {
 
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
+        UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
-        BeanUtils.copyProperties(userEntity, returnValue);
 
+        UserDto returnValue = new UserDto(userEntity);
         return returnValue;
     }
 
 
     @Override
-    public UserDto update(UserDto userDto, String publicUserId) {
-        UserDto returnValue = new UserDto();
+    public UserDto update(UserDto userDto, String email) {
 
-        UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
+        UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
+        applyChanges(userDto, userEntity);
 
+        UserEntity updatedUser = userRepository.save(userEntity);
+        UserDto returnValue = new UserDto(updatedUser);
+
+        return returnValue;
+    }
+
+    private void applyChanges(UserDto userDto, UserEntity userEntity) {
         if (userDto.getFirstName() != null) userEntity.setFirstName(userDto.getFirstName());
         if (userDto.getLastName() != null) userEntity.setLastName(userDto.getLastName());
         if (userDto.getAddress() != null) userEntity.setAddress(userDto.getAddress());
         if (userDto.getCity() != null) userEntity.setCity(userDto.getCity());
         if (userDto.getTelephone() != null) userEntity.setTelephone(userDto.getTelephone());
         if (userDto.getEmail() != null) userEntity.setEmail(userDto.getEmail());
-
-        UserEntity updatedUser = userRepository.save(userEntity);
-        BeanUtils.copyProperties(updatedUser, returnValue);
-
-        return returnValue;
     }
 
     @Override
@@ -100,8 +99,7 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> users = usersPage.getContent();
 
         for (UserEntity userEntity : users) {
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(userEntity, userDto);
+            UserDto userDto = new UserDto(userEntity);
             returnValue.add(userDto);
         }
 

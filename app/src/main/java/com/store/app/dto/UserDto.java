@@ -1,6 +1,7 @@
 package com.store.app.dto;
 
 import com.store.app.database.entity.UserEntity;
+import com.store.app.model.request.UserDetailsRequestModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,10 @@ public class UserDto implements Serializable {
 
     public UserDto(UserEntity userEntity){
         BeanUtils.copyProperties(userEntity,this);
+    }
+
+    public UserDto(UserDetailsRequestModel userDetailsRequestModel) {
+        BeanUtils.copyProperties(userDetailsRequestModel,this);
     }
 }
 

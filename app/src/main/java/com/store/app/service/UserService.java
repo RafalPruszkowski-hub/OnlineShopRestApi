@@ -10,9 +10,9 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     UserDto create(UserDto user);
 
-    UserDto get(String id);
+    UserDto get(String email);
 
-    UserDto update(UserDto req, String id);
+    UserDto update(UserDto req, String email);
 
     List<UserDto> getList(int page, int limit);
 
