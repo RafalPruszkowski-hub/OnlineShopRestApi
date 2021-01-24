@@ -123,16 +123,15 @@ public class OrderServiceImpl implements OrderService {
         //UserEntity userEntity = userRepository.findByEmail(email);
 
         Pageable pageableRequest = PageRequest.of(page, limit);
+        // TODO Write Query that will not need this if
         Page<OrderEntity> productPage = orderRepository.findAll(pageableRequest);
         List<OrderEntity> orders = productPage.getContent();
 
         for (OrderEntity orderEntity : orders) {
-            // TODO Write Query that will not need this if
             if(orderEntity.getUser().getEmail().equals(email)){
                 OrderDto orderDto = new OrderDto(orderEntity);
                 returnValue.add(orderDto);
             }
-
         }
 
         return returnValue;

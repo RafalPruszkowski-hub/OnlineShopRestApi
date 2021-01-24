@@ -29,7 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, SecurityConstants.GET_PRODUCTS_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityConstants.GET_PRODUCT_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityConstants.GET_USERS_URL).hasRole("ADMIN")
-                // .antMatchers(HttpMethod.DELETE, SecurityConstants.DELETE_PRODUCT_URL).hasRole("ADMIN") //TODO implement delete endpoint for products
+                .antMatchers(HttpMethod.GET, SecurityConstants.GET_USER_URL).hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, SecurityConstants.CREATE_PRODUCT_URL).hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, SecurityConstants.EDIT_PRODUCT_URL).hasRole("ADMIN")
                 .anyRequest()
@@ -48,7 +48,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     public AuthenticationFilter getAuthenticationFilter() throws Exception {
         final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
-        filter.setFilterProcessesUrl("/users/login");
+        filter.setFilterProcessesUrl("/user/login");
         return filter;
     }
 }

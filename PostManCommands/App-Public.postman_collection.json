@@ -23,17 +23,18 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\":\"Imie\",\r\n    \"lastName\":\"Nazwisko\",\r\n    \"address\":\"Grójecka\",\r\n    \"city\":\"Warszawa\",\r\n    \"telephone\":\"123123123\",\r\n    \"email\":\"test6@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
+					"raw": "{\r\n    \"firstName\":\"Imie\",\r\n    \"lastName\":\"Nazwisko\",\r\n    \"address\":\"Grójecka\",\r\n    \"city\":\"Warszawa\",\r\n    \"telephone\":\"123123123\",\r\n    \"email\":\"test7@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/users",
+					"raw": "http://localhost:8080/user/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users"
+						"user",
+						"register"
 					]
 				}
 			},
@@ -60,17 +61,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"test1@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
+					"raw": "{\r\n    \"email\":\"test3@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/login",
+					"raw": "http://localhost:8080/user/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
+						"user",
 						"login"
 					]
 				}

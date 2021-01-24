@@ -14,7 +14,5 @@ public interface UserService extends UserDetailsService {
 
     UserDto update(UserDto req, String email);
 
-    List<UserDto> getList(int page, int limit);
-
     UserDto getUserByEmail(String email);
 }

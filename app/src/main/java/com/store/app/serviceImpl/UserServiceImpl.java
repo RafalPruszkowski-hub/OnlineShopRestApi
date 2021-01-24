@@ -90,23 +90,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getList(int page, int limit) {
-        List<UserDto> returnValue = new ArrayList<>();
-
-        Pageable pageableRequest = PageRequest.of(page, limit);
-
-        Page<UserEntity> usersPage = userRepository.findAll(pageableRequest);
-        List<UserEntity> users = usersPage.getContent();
-
-        for (UserEntity userEntity : users) {
-            UserDto userDto = new UserDto(userEntity);
-            returnValue.add(userDto);
-        }
-
-        return returnValue;
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UsernameNotFoundException(email);

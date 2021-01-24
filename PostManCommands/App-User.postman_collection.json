@@ -22,7 +22,7 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0M0BnbWFpbC5jb20iLCJleHAiOjE2MTIzNzE3NTR9.C386ZkPremR2mKDIBqvkkQQJkyPGjNUEmHmrTXnK56eIRC1RWQLH0y2m1qJkc9GAuEOUutofB_zBgbNoeTLWOA",
 						"type": "text"
 					}
 				],
@@ -31,15 +31,13 @@
 					"raw": "{\r\n    \"quantity\":1\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/product/e2dc0f52-f299-4afd-97d1-961b1a663650",
+					"raw": "http://localhost:8080/product/e2dc0f52-f299-4afd-97d1-961b1a663650",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"f2d4330c-afd7-41cb-9286-7346450f59d4",
 						"product",
 						"e2dc0f52-f299-4afd-97d1-961b1a663650"
 					]
@@ -68,7 +66,7 @@
 					{
 						"key": "Authorization",
 						"type": "text",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ"
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0M0BnbWFpbC5jb20iLCJleHAiOjE2MTIzNzE3NTR9.C386ZkPremR2mKDIBqvkkQQJkyPGjNUEmHmrTXnK56eIRC1RWQLH0y2m1qJkc9GAuEOUutofB_zBgbNoeTLWOA"
 					}
 				],
 				"body": {
@@ -76,15 +74,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/cart",
+					"raw": "http://localhost:8080/user/cart",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"f2d4330c-afd7-41cb-9286-7346450f59d4",
+						"user",
 						"cart"
 					]
 				}
@@ -109,7 +106,7 @@
 					{
 						"key": "Authorization",
 						"type": "text",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE2MTE4Njg2Nzd9.KTd-5OAKycf-uNLNl7EeF0nO3GkE6hmg0x545ZFnOlzy1b2W_isrE9Sku-jjlkfz7yWmZZ27IyWRRceWs9S5pQ"
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0M0BnbWFpbC5jb20iLCJleHAiOjE2MTIzNzE3NTR9.C386ZkPremR2mKDIBqvkkQQJkyPGjNUEmHmrTXnK56eIRC1RWQLH0y2m1qJkc9GAuEOUutofB_zBgbNoeTLWOA"
 					}
 				],
 				"body": {
@@ -117,16 +114,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/cart/order",
+					"raw": "http://localhost:8080/order",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"f2d4330c-afd7-41cb-9286-7346450f59d4",
-						"cart",
 						"order"
 					]
 				}
@@ -162,15 +156,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/f2d4330c-afd7-41cb-9286-7346450f59d4/orders?page=0&limit=5",
+					"raw": "http://localhost:8080/orders?page=0&limit=5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"f2d4330c-afd7-41cb-9286-7346450f59d4",
 						"orders"
 					],
 					"query": [
@@ -220,6 +212,46 @@
 						"f2d4330c-afd7-41cb-9286-7346450f59d4",
 						"orders",
 						"0a900d44-b722-4003-89f2-287286728f23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0N0BnbWFpbC5jb20iLCJleHAiOjE2MTIzNjQ3NTh9.mCiCHUzMMyzWF3KUdgVKVqgmPVUj2O3hOqaMOz3FpB03joLOPVG1NhsKVDfdTij0F2fCBRCdVlfv7jQzQbWCtw",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"1\",\r\n    \"lastName\":\"1\",\r\n    \"address\":\"1\",\r\n    \"city\":\"1\",\r\n    \"telephone\":\"123123123\",\r\n    \"email\":\"test7@gmail.com\",\r\n    \"password\":\"123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"edit"
 					]
 				}
 			},

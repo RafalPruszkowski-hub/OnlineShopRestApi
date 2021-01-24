@@ -152,14 +152,52 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/users",
+					"raw": "http://localhost:8080/admin/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"admin",
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user on id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGFkbWluLmNvbSIsImV4cCI6MTYxMTc0NjMwOX0.dHtQj5N2z2JffMijdrBJZSFZy0nioVN8sZwLwn2olv3t65ytbzjGNo3vQXCUGj0dryAvRUyWhbEC76pbfVaveQ",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/admin/users/4f4a8d64-e030-43b0-ae06-2e7ac62635ba",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"users",
+						"4f4a8d64-e030-43b0-ae06-2e7ac62635ba"
 					]
 				}
 			},

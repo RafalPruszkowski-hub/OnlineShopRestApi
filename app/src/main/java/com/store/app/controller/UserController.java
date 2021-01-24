@@ -29,8 +29,8 @@ public class UserController {
     @Autowired
     CartService cartService;
 
-    @GetMapping(path = "/{id}",
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
+
+    @GetMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public UserResponseModel getUser(Principal principal) {
         UserDto userDto = userService.get(principal.getName());
@@ -50,21 +50,6 @@ public class UserController {
         return returnValue;
     }
 
-    @GetMapping(path="s")
-    public ArrayList<UserResponseModel> getUsers(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "limit", defaultValue = "25") int limit
-    ) {
-        List<UserDto> users = userService.getList(page, limit);
-
-        ArrayList<UserResponseModel> returnValue = new ArrayList<>();
-        for (UserDto userDto : users) {
-            UserResponseModel userResponseModel = new UserResponseModel(userDto);
-            returnValue.add(userResponseModel);
-        }
-
-        return returnValue;
-    }
 
     @PutMapping(path = "/edit",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
