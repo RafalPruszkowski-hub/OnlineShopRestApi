@@ -31,9 +31,9 @@ In PostManCommands folder you have ready to use import files with pre prepared c
 
 ## Public Endpoints
 
-POST   || http://localhost:8080/users  || Create new user.
+POST   || http://localhost:8080/user/register  || Create new user.
 
-GET    || http://localhost:8080/users/login || It returns user publicUserID and Authorization in Headers. They are needed if you want to acces User or Admin Endpoints. 
+GET    || http://localhost:8080/user/login || It returns user publicUserID and Authorization in Headers. They are needed if you want to acces User or Admin Endpoints. 
                                                For Every user that is currently in database passsword is: 123
                                              
 GET    || http://localhost:8080/products/{publicProductId} || Get product details on publicProductId.
@@ -42,30 +42,32 @@ GET    || http://localhost:8080/products?page=0&limit=10 || Get products details
 
 ## Admin Endpoints
 #### Every request here require to use Authorization Header with value genereted while loging in.
-** Admin account: email:"test@admin.com", password:"123"
+**Admin account: email:"test@admin.com", password:"123"**
 
 POST   || http://localhost:8080/products || Create a new product.
 
 PUT    || http://localhost:8080/products/{publicProductId} || Edit product.
 
-GET    || http://localhost:8080/users?page=0&limit=3 || Get users, it's pagable request.
+GET    || http://localhost:8080/admin/users?page=0&limit=3 || Get users, it's pagable request.
+
+GET    || http://localhost:8080/admin/users/{publicUserId} || Get user on publicUserId.
 
 ## User Endpoints
 
 #### Every request here require to use Authorization Header with value genereted while loging in.
 
-**Only user with email: "test1@gmail.com", password:"123" publicId:"f2d4330c-afd7-41cb-9286-7346450f59d4" have created orders.
- 
-GET    || http://localhost:8080/users/{publicUserId} || Get user details on publicUserId.
+**Only user with email: "test1@gmail.com", password:"123" publicId:"f2d4330c-afd7-41cb-9286-7346450f59d4" have created orders.**
 
-PUT    || http://localhost:8080/users/{publicUserId} || Edit user on publicUserId.
+GET    || http://localhost:8080/user || Get user details.
 
-POST   || http://localhost:8080/users/{publicUserId}/products/{publicProductId} || Add new product to the cart.
+PUT    || http://localhost:8080/user/edit || Edit user.
 
-GET    || http://localhost:8080/users/{publicUserId}/cart || Get cart with items that it contain.
+POST   || http://localhost:8080/product/{publicProductId} || Add new product to the cart.
 
-POST   || http://localhost:8080/users/{publicUserId}/cart/order || Create order for user based on a current cart.
+GET    || http://localhost:8080/user/cart || Get cart with items that it contain.
 
-GET    || http://localhost:8080/users/{publicUserId}/orders?page=0&limit=5 || Get all orders created by user, it's pagable request.
+POST   || http://localhost:8080/order || Create order for user based on a current cart.
 
-GET    || http://localhost:8080/users/{publicUserId}/orders/{publicOrderId} || Get order on publicOrderId if it's created by user that is calling this request.
+GET    || http://localhost:8080/orders?page=0&limit=5 || Get all orders created by user, it's pagable request.
+
+GET    || http://localhost:80801/orders/{publicOrderId} || Get order on publicOrderId if it's created by user that is calling this request.
