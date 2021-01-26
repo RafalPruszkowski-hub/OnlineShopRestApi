@@ -118,22 +118,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getList(String email, int page, int limit) {
-        List returnValue = new ArrayList<OrderDto>();
+        UserEntity userEntity = userRepository.findByEmail(email);
 
-        //UserEntity userEntity = userRepository.findByEmail(email);
+        List<OrderEntity> orderEntityList = userEntity.getOrders();
 
-        Pageable pageableRequest = PageRequest.of(page, limit);
-        // TODO Write Query that will not need this if
-        Page<OrderEntity> productPage = orderRepository.findAll(pageableRequest);
-        List<OrderEntity> orders = productPage.getContent();
+        // TODO If it's possible write pageable request that will not need this loop
+        int stop = orderEntityList.size() - limit - page*limit - 1;
+        int start = orderEntityList.size() - page*limit -1;
+        if(stop<0) stop=0;
 
-        for (OrderEntity orderEntity : orders) {
-            if(orderEntity.getUser().getEmail().equals(email)){
-                OrderDto orderDto = new OrderDto(orderEntity);
-                returnValue.add(orderDto);
-            }
+        List<OrderDto> returnValue = new ArrayList<>();
+        for(int i =start; i>stop; i--){
+            OrderDto orderDto = new OrderDto(orderEntityList.get(i));
+            returnValue.add(orderDto);
         }
-
         return returnValue;
+
     }
 }
