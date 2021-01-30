@@ -4,7 +4,6 @@ import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.CartItemEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
@@ -22,13 +21,14 @@ public class CartDto implements Serializable {
     private List<CartItemDto> cartItems;
     private OrderDto orderDto;
 
-    public CartDto(){
+    public CartDto() {
 
     }
-    public CartDto(CartEntity cartEntity){
-        BeanUtils.copyProperties(cartEntity,this);
+
+    public CartDto(CartEntity cartEntity) {
+        BeanUtils.copyProperties(cartEntity, this);
         cartItems = new ArrayList<>();
-        for(CartItemEntity cartItemEntity : cartEntity.getCartItems()){
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
             CartItemDto cartItemDto = new CartItemDto(cartItemEntity);
             cartItems.add(cartItemDto);
         }

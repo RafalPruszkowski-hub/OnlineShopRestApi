@@ -42,4 +42,5 @@ public class CartItemEntity implements Serializable {
     public CartItemEntity(CartEntity cart, ProductEntity product) {
         this.cart = cart;
         this.product = product;
-    }}
+    }
+}

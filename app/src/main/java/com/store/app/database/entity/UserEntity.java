@@ -2,12 +2,12 @@ package com.store.app.database.entity;
 
 
 import com.store.app.dto.UserDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -18,6 +18,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity(name = "users")
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -65,12 +66,13 @@ public class UserEntity implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.MERGE})
-    @JoinTable(name="users_roles",
-            joinColumns = @JoinColumn(name="user_id", referencedColumnName = "userId"),
-            inverseJoinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id") )
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
     private Collection<RoleEntity> roles;
 
-    public UserEntity(){}
+    public UserEntity() {
+    }
 
     public UserEntity(UserDto userDto) {
         BeanUtils.copyProperties(userDto, this);

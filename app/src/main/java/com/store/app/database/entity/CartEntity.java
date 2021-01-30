@@ -31,7 +31,7 @@ public class CartEntity implements Serializable {
     @JoinColumn(name = "userId")
     private UserEntity user;
     @OneToOne(fetch = FetchType.EAGER,
-            cascade = { CascadeType.REFRESH})
+            cascade = {CascadeType.REFRESH})
 
     @JoinColumn(name = "order_id")
     private OrderEntity orderEntity;
@@ -45,6 +45,6 @@ public class CartEntity implements Serializable {
     }
 
     public CartEntity(CartDto cartDto) {
-        BeanUtils.copyProperties(cartDto,this);
+        BeanUtils.copyProperties(cartDto, this);
     }
 }

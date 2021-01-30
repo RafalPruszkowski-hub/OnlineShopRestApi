@@ -3,7 +3,6 @@ package com.store.app.controller;
 import com.store.app.dto.UserDto;
 import com.store.app.model.response.UserResponseModel;
 import com.store.app.service.AdminService;
-import com.store.app.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,7 +29,7 @@ public class AdminController {
         return returnValue;
     }
 
-    @GetMapping(path="/users")
+    @GetMapping(path = "/users")
     public ArrayList<UserResponseModel> getUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "25") int limit

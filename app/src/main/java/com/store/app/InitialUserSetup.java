@@ -1,15 +1,17 @@
 package com.store.app;
 
+import com.store.app.database.entity.AuthorityEntity;
+import com.store.app.database.entity.RoleEntity;
+import com.store.app.database.entity.UserEntity;
+import com.store.app.database.repository.AuthorityRepository;
+import com.store.app.database.repository.RoleRepository;
+import com.store.app.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.store.app.database.repository.*;
-import com.store.app.database.entity.*;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
@@ -36,8 +38,8 @@ public class InitialUserSetup {
         AuthorityEntity writeAuthority = createAuthority("WRITE_AUTHORITY");
         AuthorityEntity deleteAuthority = createAuthority("DELETE_AUTHORITY");
 
-        RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority,writeAuthority,deleteAuthority));
-        RoleEntity roleUser = createRole("ROLE_ADMIN", Arrays.asList(readAuthority,writeAuthority));
+        RoleEntity roleAdmin = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority, deleteAuthority));
+        RoleEntity roleUser = createRole("ROLE_ADMIN", Arrays.asList(readAuthority, writeAuthority));
 
         if (roleAdmin == null) return;
 
@@ -56,9 +58,9 @@ public class InitialUserSetup {
         }
     }
 
-    private AuthorityEntity createAuthority(String name){
+    private AuthorityEntity createAuthority(String name) {
         AuthorityEntity authority = authorityRepository.findByName(name);
-        if(authority==null){
+        if (authority == null) {
             authority = new AuthorityEntity(name);
             authorityRepository.save(authority);
         }
@@ -66,9 +68,9 @@ public class InitialUserSetup {
     }
 
     private RoleEntity createRole(String name,
-                                  Collection<AuthorityEntity> authorities){
+                                  Collection<AuthorityEntity> authorities) {
         RoleEntity role = roleRepository.findByName(name);
-        if(role == null){
+        if (role == null) {
             role = new RoleEntity(name);
             role.setAuthorities(authorities);
             roleRepository.save(role);

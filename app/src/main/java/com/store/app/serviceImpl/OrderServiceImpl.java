@@ -6,11 +6,12 @@ import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.CartRepository;
 import com.store.app.database.repository.OrderRepository;
 import com.store.app.database.repository.UserRepository;
-import com.store.app.dto.*;
+import com.store.app.dto.CartDto;
+import com.store.app.dto.CartItemDto;
+import com.store.app.dto.OrderDto;
+import com.store.app.exception.NotAuthorizedException;
 import com.store.app.exception.cart.CartIsEmptyException;
 import com.store.app.exception.cart.CartNotFoundException;
-
-import com.store.app.exception.NotAuthorizedException;
 import com.store.app.exception.order.OrderNotFoundException;
 import com.store.app.exception.product.ProductOutOfStockException;
 import com.store.app.exception.user.UserNotFoundException;
@@ -19,13 +20,10 @@ import com.store.app.service.OrderService;
 import com.store.app.service.ProductService;
 import com.store.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -54,13 +52,13 @@ public class OrderServiceImpl implements OrderService {
 
         //Set user
         UserEntity userEntity = userRepository.findByEmail(email);
-        if(userEntity==null) throw new UserNotFoundException();
+        if (userEntity == null) throw new UserNotFoundException();
         orderEntity.setUser(userEntity);
 
         //Set cart
         CartDto cartDto = cartService.getOnPublicUserId(userEntity.getPublicUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
-        if(cartEntity ==null) throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
         orderEntity.setCart(cartEntity);
         orderEntity.setPublicOrderId(UUID.randomUUID().toString());
@@ -109,8 +107,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto get(String email, String publicOrderId) {
         UserEntity userEntity = userRepository.findByEmail(email);
         OrderEntity orderEntity = orderRepository.findByPublicOrderId(publicOrderId);
-        if (orderEntity==null) throw new OrderNotFoundException();
-        if (orderEntity.getUser().getUserId()==userEntity.getUserId()) throw new NotAuthorizedException();
+        if (orderEntity == null) throw new OrderNotFoundException();
+        if (orderEntity.getUser().getUserId() == userEntity.getUserId()) throw new NotAuthorizedException();
 
         OrderDto returnValue = new OrderDto(orderEntity);
         return returnValue;
@@ -123,12 +121,12 @@ public class OrderServiceImpl implements OrderService {
         List<OrderEntity> orderEntityList = userEntity.getOrders();
 
         // TODO If it's possible write pageable request that will not need this loop
-        int stop = orderEntityList.size() - limit - page*limit - 1;
-        int start = orderEntityList.size() - page*limit -1;
-        if(stop<0) stop=0;
+        int stop = orderEntityList.size() - limit - page * limit - 1;
+        int start = orderEntityList.size() - page * limit - 1;
+        if (stop < 0) stop = 0;
 
         List<OrderDto> returnValue = new ArrayList<>();
-        for(int i =start; i>stop; i--){
+        for (int i = start; i > stop; i--) {
             OrderDto orderDto = new OrderDto(orderEntityList.get(i));
             returnValue.add(orderDto);
         }

@@ -53,11 +53,12 @@ public class ProductServiceImpl implements ProductService {
         ProductDto returnValue = new ProductDto();
 
         ProductEntity productEntity = productRepository.findByPublicProductId(id);
-        if(productEntity == null) throw new ProductNotFoundException();
+        if (productEntity == null) throw new ProductNotFoundException();
 
 
         if (productDto.getProductBrand() != null) productEntity.setProductBrand(productDto.getProductBrand());
-        if (productDto.getProductDescription() != null) productEntity.setProductDescription(productDto.getProductDescription());
+        if (productDto.getProductDescription() != null)
+            productEntity.setProductDescription(productDto.getProductDescription());
         if (productDto.getProductModel() != null) productEntity.setProductModel(productDto.getProductModel());
         if (productDto.getProductName() != null) productEntity.setProductName(productDto.getProductName());
 
@@ -91,11 +92,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto updateProductStock(int quantity, String publicProductId) {
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
-        if(productEntity == null) throw new ProductNotFoundException();
+        if (productEntity == null) throw new ProductNotFoundException();
 
         ProductDto returnValue = new ProductDto();
 
-                productEntity.setQuantityOfStock(productEntity.getQuantityOfStock() - quantity);
+        productEntity.setQuantityOfStock(productEntity.getQuantityOfStock() - quantity);
         ProductEntity storedEntity = productRepository.save(productEntity);
 
         BeanUtils.copyProperties(storedEntity, returnValue);

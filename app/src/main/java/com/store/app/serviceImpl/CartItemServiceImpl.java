@@ -10,11 +10,9 @@ import com.store.app.database.repository.ProductRepository;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.CartDto;
 import com.store.app.dto.CartItemDto;
-
 import com.store.app.exception.cart.CartNotFoundException;
 import com.store.app.exception.product.ProductAlreadyInCartException;
 import com.store.app.exception.user.UserNotFoundException;
-import com.store.app.model.response.ProductResponseModel;
 import com.store.app.service.CartItemService;
 import com.store.app.service.CartService;
 import org.springframework.beans.BeanUtils;
@@ -44,12 +42,11 @@ public class CartItemServiceImpl implements CartItemService {
     public CartItemDto create(String email, String publicProductId, CartItemDto cartItemDto) {
 
         UserEntity userEntity = userRepository.findByEmail(email);
-        if(userEntity==null) throw new UserNotFoundException(email);
-
+        if (userEntity == null) throw new UserNotFoundException(email);
 
         CartDto cartDto = cartService.getOnPublicUserId(userEntity.getPublicUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartDto.getCartId());
-        if(cartEntity==null) throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
 
         ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
@@ -65,17 +62,11 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemEntity.setProductsPrice(productEntity.getProductPrice()
                 * cartItemDto.getQuantity());
 
-        //saving item into database
+
         CartItemEntity storedCartItem = cartItemRepository.save(cartItemEntity);
-
-
-        //Update total price for the cart that item is added to
         cartService.updateTotalPrice(userEntity.getPublicUserId(), cartItemEntity.getProductsPrice());
 
-
-        //Creating return value
         CartItemDto returnValue = new CartItemDto(storedCartItem);
-
         return returnValue;
     }
 

@@ -19,14 +19,15 @@ public class CartItemDto implements Serializable {
     private ProductDto product;
     private double productsPrice;
 
-    public CartItemDto() {}
+    public CartItemDto() {
+    }
 
     public CartItemDto(CartItemEntity cartItemEntity) {
-        BeanUtils.copyProperties(cartItemEntity,this);
+        BeanUtils.copyProperties(cartItemEntity, this);
         product = new ProductDto(cartItemEntity.getProduct());
     }
 
     public CartItemDto(CartItemDetailsRequest cartItemDetailsRequest) {
-        BeanUtils.copyProperties(cartItemDetailsRequest,this);
+        BeanUtils.copyProperties(cartItemDetailsRequest, this);
     }
 }

@@ -1,8 +1,7 @@
 package com.store.app.controller;
 
 import com.store.app.dto.OrderDto;
-import com.store.app.dto.UserDto;
-import com.store.app.model.response.*;
+import com.store.app.model.response.OrderResponseModel;
 import com.store.app.service.OrderService;
 import com.store.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class OrderController {
     @GetMapping(path = "/orders/{publicOrderId}")
     public OrderResponseModel getOrder(@PathVariable(name = "publicOrderId") String publicOrderId,
                                        Principal principal) {
-        OrderDto orderDto = orderService.get(principal.getName(),publicOrderId);
+        OrderDto orderDto = orderService.get(principal.getName(), publicOrderId);
 
         OrderResponseModel returnValue = new OrderResponseModel(orderDto);
 
@@ -50,10 +49,10 @@ public class OrderController {
     public List<OrderResponseModel> getOrders(Principal principal,
                                               @RequestParam(value = "page", defaultValue = "0") int page,
                                               @RequestParam(value = "limit", defaultValue = "25") int limit) {
-        List<OrderDto> orderDtoList = orderService.getList(principal.getName(), page ,limit);
+        List<OrderDto> orderDtoList = orderService.getList(principal.getName(), page, limit);
 
         List<OrderResponseModel> returnValue = new ArrayList<>();
-        for(OrderDto orderDto : orderDtoList){
+        for (OrderDto orderDto : orderDtoList) {
             OrderResponseModel orderResponseModel = new OrderResponseModel(orderDto);
             returnValue.add(orderResponseModel);
         }

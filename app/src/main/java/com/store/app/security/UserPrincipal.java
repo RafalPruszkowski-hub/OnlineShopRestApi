@@ -1,7 +1,6 @@
 package com.store.app.security;
 
 
-
 import com.store.app.database.entity.AuthorityEntity;
 import com.store.app.database.entity.RoleEntity;
 import com.store.app.database.entity.UserEntity;
@@ -16,10 +15,14 @@ import java.util.List;
 public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = -12333123412431L;
     UserEntity userEntity;
+
     public UserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
 
+    public UserPrincipal(String email){
+        userEntity.setEmail(email);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -28,7 +31,7 @@ public class UserPrincipal implements UserDetails {
 
         Collection<RoleEntity> roles = userEntity.getRoles();
 
-        if (roles==null) return authorities;
+        if (roles == null) return authorities;
 
         roles.forEach((role) -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));

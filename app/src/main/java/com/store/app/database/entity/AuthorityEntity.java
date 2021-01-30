@@ -10,7 +10,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @Entity
-@Table(name="authorities")
+@Table(name = "authorities")
 public class AuthorityEntity implements Serializable {
     private static final long serialVersionUID = -123123412431L;
     @Id
@@ -23,7 +23,9 @@ public class AuthorityEntity implements Serializable {
     private Collection<RoleEntity> roles;
 
     public AuthorityEntity(String name) {
-        this.name=name;
+        this.name = name;
     }
-    public AuthorityEntity(){}
+
+    public AuthorityEntity() {
+    }
 }

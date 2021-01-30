@@ -8,5 +8,6 @@ import java.util.List;
 @Service
 public interface AdminService {
     UserDto getUser(String publicUserId);
+
     List<UserDto> getUsers(int page, int limit);
 }

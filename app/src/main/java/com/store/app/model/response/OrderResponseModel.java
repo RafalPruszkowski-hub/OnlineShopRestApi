@@ -15,8 +15,8 @@ public class OrderResponseModel {
     public OrderResponseModel() {
     }
 
-    public OrderResponseModel(OrderDto orderDto){
-        BeanUtils.copyProperties(orderDto,this);
+    public OrderResponseModel(OrderDto orderDto) {
+        BeanUtils.copyProperties(orderDto, this);
         user = new UserResponseModel(orderDto.getUser());
         cart = new CartResponseModel(orderDto.getCart());
     }

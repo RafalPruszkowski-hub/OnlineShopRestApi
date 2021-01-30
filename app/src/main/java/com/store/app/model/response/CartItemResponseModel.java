@@ -15,8 +15,9 @@ public class CartItemResponseModel {
 
     public CartItemResponseModel() {
     }
+
     public CartItemResponseModel(CartItemDto cartItemDto) {
-        BeanUtils.copyProperties(cartItemDto,this);
+        BeanUtils.copyProperties(cartItemDto, this);
         product = new ProductResponseModel(cartItemDto.getProduct());
     }
 }

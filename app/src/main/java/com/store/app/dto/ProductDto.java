@@ -20,10 +20,11 @@ public class ProductDto implements Serializable {
     private int quantityOfStock;
     private double productPrice;
 
-    public ProductDto(){}
+    public ProductDto() {
+    }
 
-    public ProductDto(ProductEntity productEntity){
-        BeanUtils.copyProperties(productEntity,this);
+    public ProductDto(ProductEntity productEntity) {
+        BeanUtils.copyProperties(productEntity, this);
     }
 
 }

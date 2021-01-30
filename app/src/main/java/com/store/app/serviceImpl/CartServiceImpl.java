@@ -40,11 +40,11 @@ public class CartServiceImpl implements CartService {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
-        if(userEntity == null) throw new UserNotFoundException(publicUserId);
+        if (userEntity == null) throw new UserNotFoundException(publicUserId);
 
         int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
-        if(cartEntity == null) throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
 
         BeanUtils.copyProperties(cartEntity, returnValue);
@@ -76,11 +76,11 @@ public class CartServiceImpl implements CartService {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByEmail(email);
-        if(userEntity == null) throw new UserNotFoundException();
+        if (userEntity == null) throw new UserNotFoundException();
 
         int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
-        if(cartEntity == null) throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
 
         BeanUtils.copyProperties(cartEntity, returnValue);
@@ -108,7 +108,6 @@ public class CartServiceImpl implements CartService {
     }
 
 
-
     //SOMEHOW NOT WORKING FIX IT PLS
     @Override
     public void updateTotalPrice(String publicUserId, double price) {
@@ -118,7 +117,7 @@ public class CartServiceImpl implements CartService {
 
         int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
-        if(cartEntity==null) throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
         double tmp = price;
 
@@ -133,10 +132,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void saveForOrder(int cartId, int orderId) {
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
-        if(cartEntity ==null )throw new CartNotFoundException();
+        if (cartEntity == null) throw new CartNotFoundException();
 
         OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
-        if(orderEntity==null) throw new OrderNotFoundException();
+        if (orderEntity == null) throw new OrderNotFoundException();
 
         cartEntity.setOrderEntity(orderEntity);
         cartRepository.save(cartEntity);
@@ -147,7 +146,7 @@ public class CartServiceImpl implements CartService {
         CartDto returnValue = new CartDto();
 
         UserEntity userEntity = userRepository.findByPublicUserId(userId);
-        if(userEntity == null) throw new UserNotFoundException();
+        if (userEntity == null) throw new UserNotFoundException();
 
         CartEntity cartEntity = new CartEntity(userEntity);
         cartEntity.setPublicCartId(UUID.randomUUID().toString());

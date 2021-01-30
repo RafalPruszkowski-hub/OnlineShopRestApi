@@ -1,12 +1,9 @@
 package com.store.app.controller;
 
 import com.store.app.dto.CartDto;
-import com.store.app.dto.CartItemDto;
 import com.store.app.dto.UserDto;
 import com.store.app.model.request.UserDetailsRequestModel;
-import com.store.app.model.response.CartItemResponseModel;
 import com.store.app.model.response.CartResponseModel;
-import com.store.app.model.response.ProductResponseModel;
 import com.store.app.model.response.UserResponseModel;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
@@ -16,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -36,8 +31,8 @@ public class UserController {
         UserDto userDto = userService.get(principal.getName());
 
         UserResponseModel returnValue = new UserResponseModel(userDto);
-
         BeanUtils.copyProperties(userDto, returnValue);
+
         return returnValue;
     }
 

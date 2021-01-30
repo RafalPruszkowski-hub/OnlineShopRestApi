@@ -12,7 +12,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 public class RoleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,14 +26,15 @@ public class RoleEntity implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.MERGE})
-    @JoinTable(name="roles_authorities",
-            joinColumns = @JoinColumn(name="roles_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="authorities_id", referencedColumnName = "id") )
+    @JoinTable(name = "roles_authorities",
+            joinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authorities_id", referencedColumnName = "id"))
     private Collection<AuthorityEntity> authorities;
 
     public RoleEntity(String name) {
         this.name = name;
     }
 
-    public RoleEntity(){}
+    public RoleEntity() {
+    }
 }

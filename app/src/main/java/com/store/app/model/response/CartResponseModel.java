@@ -20,9 +20,9 @@ public class CartResponseModel {
     }
 
     public CartResponseModel(CartDto cartDto) {
-        BeanUtils.copyProperties(cartDto,this);
+        BeanUtils.copyProperties(cartDto, this);
         cartItems = new ArrayList<>();
-        for(CartItemDto cartItemDto : cartDto.getCartItems()){
+        for (CartItemDto cartItemDto : cartDto.getCartItems()) {
             CartItemResponseModel cartItemResponseModel = new CartItemResponseModel(cartItemDto);
             cartItems.add(cartItemResponseModel);
         }

@@ -1,12 +1,14 @@
 package com.store.app.model.response;
 
 import com.store.app.dto.UserDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UserResponseModel {
     private String publicUserId;
     private String firstName;
@@ -16,9 +18,10 @@ public class UserResponseModel {
     private String telephone;
     private String email;
 
-    public UserResponseModel(){}
+    public UserResponseModel() {
+    }
 
     public UserResponseModel(UserDto userDto) {
-        BeanUtils.copyProperties(userDto,this);
+        BeanUtils.copyProperties(userDto, this);
     }
 }

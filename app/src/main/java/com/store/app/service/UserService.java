@@ -4,8 +4,6 @@ import com.store.app.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public interface UserService extends UserDetailsService {
     UserDto create(UserDto user);
@@ -14,5 +12,4 @@ public interface UserService extends UserDetailsService {
 
     UserDto update(UserDto req, String email);
 
-    UserDto getUserByEmail(String email);
 }

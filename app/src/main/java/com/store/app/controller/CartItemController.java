@@ -5,7 +5,6 @@ import com.store.app.model.request.CartItemDetailsRequest;
 import com.store.app.model.response.CartItemResponseModel;
 import com.store.app.service.CartItemService;
 import com.store.app.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +21,9 @@ public class CartItemController {
     @PostMapping
     @RequestMapping(path = "/product/{publicProductId}")
     public CartItemResponseModel createCartItem(
-                                                @PathVariable("publicProductId") String publicProductId,
-                                                @RequestBody CartItemDetailsRequest cartItemDetailsRequest,
-                                                Principal principal) {
+            @PathVariable("publicProductId") String publicProductId,
+            @RequestBody CartItemDetailsRequest cartItemDetailsRequest,
+            Principal principal) {
         String email = principal.getName();
         CartItemDto cartItemDto = new CartItemDto(cartItemDetailsRequest);
 

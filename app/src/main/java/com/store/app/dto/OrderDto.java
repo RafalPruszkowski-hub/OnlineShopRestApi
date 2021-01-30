@@ -16,12 +16,12 @@ public class OrderDto implements Serializable {
     private CartDto cart;
     private UserDto user;
 
-    public OrderDto(){
+    public OrderDto() {
 
     }
 
-    public OrderDto(OrderEntity orderEntity){
-        BeanUtils.copyProperties(orderEntity,this);
+    public OrderDto(OrderEntity orderEntity) {
+        BeanUtils.copyProperties(orderEntity, this);
         this.cart = new CartDto(orderEntity.getCart());
         this.user = new UserDto(orderEntity.getUser());
     }

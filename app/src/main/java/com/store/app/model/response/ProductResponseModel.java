@@ -18,8 +18,9 @@ public class ProductResponseModel {
 
     public ProductResponseModel() {
     }
+
     public ProductResponseModel(ProductDto product) {
-        BeanUtils.copyProperties(product,this);
+        BeanUtils.copyProperties(product, this);
     }
 }
 
