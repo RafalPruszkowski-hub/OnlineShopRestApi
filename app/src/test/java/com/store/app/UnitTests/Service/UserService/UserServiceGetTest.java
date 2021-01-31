@@ -1,4 +1,4 @@
-package com.store.app.UnitTests;
+package com.store.app.UnitTests.Service.UserService;
 
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.OrderEntity;

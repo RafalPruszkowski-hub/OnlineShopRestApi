@@ -3,6 +3,7 @@ package com.store.app.serviceImpl;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.UserDto;
+import com.store.app.exception.user.CreatingUserErrorException;
 import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.exception.user.UserNotFoundException;
 import com.store.app.security.UserPrincipal;
@@ -28,24 +29,23 @@ public class UserServiceImpl implements UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    UUIDGenerator uuidGenerator;
+
     @Override
-    public UserDto create(UserDto user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) throw new UserAlreadyExistException(user.getEmail());
+    public UserDto create(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()) != null) throw new UserAlreadyExistException(userDto.getEmail());
 
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(user, userEntity);
-
-
-        String publicUserId = UUID.randomUUID().toString();
-        userEntity.setPublicUserId(publicUserId);
-
-        userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        UserEntity userEntity = new UserEntity(userDto);
+        userEntity.setPublicUserId(uuidGenerator.generate());
+        userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
+        if(storedUserDetails==null) throw new CreatingUserErrorException();
+
         cartService.create(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
-        UserDto returnValue = new UserDto();
-        BeanUtils.copyProperties(storedUserDetails, returnValue);
+        UserDto returnValue = new UserDto(storedUserDetails);
 
         return returnValue;
     }
