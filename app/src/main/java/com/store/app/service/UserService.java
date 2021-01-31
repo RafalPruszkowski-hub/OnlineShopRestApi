@@ -11,5 +11,4 @@ public interface UserService extends UserDetailsService {
     UserDto get(String email);
 
     UserDto update(UserDto req, String email);
-
 }

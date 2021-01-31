@@ -6,6 +6,7 @@ import com.store.app.dto.UserDto;
 import com.store.app.exception.user.CreatingUserErrorException;
 import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.exception.user.UserNotFoundException;
+import com.store.app.mapper.UserMapper;
 import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
@@ -52,7 +53,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(String email) {
-
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
@@ -63,11 +63,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto, String email) {
-
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
-        applyChanges(userDto, userEntity);
+        applyChanges(userDto,userEntity);
 
         UserEntity updatedUser = userRepository.save(userEntity);
         UserDto returnValue = new UserDto(updatedUser);
