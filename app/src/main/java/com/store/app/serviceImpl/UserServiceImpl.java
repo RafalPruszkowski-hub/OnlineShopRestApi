@@ -1,23 +1,20 @@
 package com.store.app.serviceImpl;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.UserEntity;
 import com.store.app.database.repository.UserRepository;
 import com.store.app.dto.UserDto;
 import com.store.app.exception.user.CreatingUserErrorException;
 import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.exception.user.UserNotFoundException;
-import com.store.app.mapper.UserMapper;
 import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {

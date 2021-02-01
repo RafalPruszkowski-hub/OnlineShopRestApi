@@ -77,13 +77,12 @@ public class UserServiceGetTest {
         assertEquals(userDto.getPassword(), null);
     }
 
-    @Test()
+    @Test
     public void getUser_null() {
         email = "email";
         when(userRepository.findByEmail(email)).thenReturn(null);
         Exception exception = assertThrows(UserNotFoundException.class, () -> {
             userService.get(email);
         });
-
     }
 }

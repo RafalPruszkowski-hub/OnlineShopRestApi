@@ -20,7 +20,7 @@ public class CartItemController {
 
     @PostMapping
     @RequestMapping(path = "/product/{publicProductId}")
-    public CartItemResponseModel createCartItem(
+    public CartItemResponseModel create(
             @PathVariable("publicProductId") String publicProductId,
             @RequestBody CartItemDetailsRequest cartItemDetailsRequest,
             Principal principal) {

@@ -1,5 +1,6 @@
 package com.store.app.UnitTests.Service.UserService;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.OrderEntity;
 import com.store.app.database.entity.RoleEntity;
@@ -11,16 +12,13 @@ import com.store.app.exception.user.CreatingUserErrorException;
 import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
-import com.store.app.serviceImpl.UUIDGenerator;
 import com.store.app.serviceImpl.UserServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,10 +42,10 @@ public class UserServiceCreateTest {
     private UserRepository userRepository;
 
     @MockBean
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @MockBean
-    UUIDGenerator uuidGenerator;
+    private UUIDGenerator uuidGenerator;
 
     private Integer userId;
     private String publicUserId;
@@ -66,7 +64,7 @@ public class UserServiceCreateTest {
     private UserEntity userEntity;
 
 
-    private void init(){
+    private void init() {
         this.encryptedPassword = "encryptedPassword";
         this.userId = 1;
         this.publicUserId = "publicUserId";
@@ -113,7 +111,9 @@ public class UserServiceCreateTest {
     public void createUser_AlreadyExist() {
         init();
         when(userRepository.findByEmail(email)).thenReturn(new UserEntity());
-        assertThrows(UserAlreadyExistException.class, () -> {userService.create(userDto);});
+        assertThrows(UserAlreadyExistException.class, () -> {
+            userService.create(userDto);
+        });
     }
 
     @Test

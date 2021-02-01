@@ -1,6 +1,6 @@
 package com.store.app;
 
-import com.store.app.serviceImpl.UUIDGenerator;
+import com.store.app.Util.UUIDGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

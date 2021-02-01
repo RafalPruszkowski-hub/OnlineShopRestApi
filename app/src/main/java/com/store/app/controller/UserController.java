@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel getUser(Principal principal) {
+    public UserResponseModel get(Principal principal) {
         UserDto userDto = userService.get(principal.getName());
 
         UserResponseModel returnValue = new UserResponseModel(userDto);
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel) {
+    public UserResponseModel create(@RequestBody UserDetailsRequestModel userDetailsRequestModel) {
         UserDto userDto = new UserDto(userDetailsRequestModel);
         UserDto createdUser = userService.create(userDto);
         UserResponseModel returnValue = new UserResponseModel(createdUser);
@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping(path = "/edit",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel updateUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel, Principal principal) {
+    public UserResponseModel update(@RequestBody UserDetailsRequestModel userDetailsRequestModel, Principal principal) {
         UserDto userDto = new UserDto(userDetailsRequestModel);
 
         UserDto updatedUser = userService.update(userDto, principal.getName());

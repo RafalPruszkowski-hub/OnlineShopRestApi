@@ -1,6 +1,7 @@
 package com.store.app.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity(name = "products")
 public class ProductEntity implements Serializable {
     private static final long serialVersionUID = 9L;
@@ -54,4 +56,7 @@ public class ProductEntity implements Serializable {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<CartItemEntity> cartItems;
+
+    public ProductEntity() {
+    }
 }

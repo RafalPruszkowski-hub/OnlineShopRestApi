@@ -22,7 +22,7 @@ public class ProductController {
     CartService cartService;
 
     @PostMapping
-    public ProductResponseModel createProduct(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
+    public ProductResponseModel create(@RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
 
@@ -34,7 +34,7 @@ public class ProductController {
 
 
     @GetMapping(path = "/{productId}")
-    public ProductResponseModel getProduct(@PathVariable(name = "productId") String productId) {
+    public ProductResponseModel get(@PathVariable(name = "productId") String productId) {
         ProductDto productDto = productService.get(productId);
         ProductResponseModel returnValue = new ProductResponseModel(productDto);
 
@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @PutMapping(path = "/{productId}")
-    public ProductResponseModel updateProduct(@PathVariable(name = "productId") String productId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
+    public ProductResponseModel update(@PathVariable(name = "productId") String productId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
         productDto.setPublicProductId(productId);
@@ -55,7 +55,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponseModel> getProducts(
+    public List<ProductResponseModel> getList(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "10") int limit
     ) {

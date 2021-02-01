@@ -1,6 +1,7 @@
 package com.store.app.dto;
 
 import com.store.app.database.entity.ProductEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ProductDto implements Serializable {
     private static final long serialVersionUID = -4133333793091890797L;
     private Integer productId;

@@ -1,5 +1,6 @@
 package com.store.app.serviceImpl;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.ProductDto;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    private UUIDGenerator uuidGenerator;
 
     @Override
     public ProductDto create(ProductDto productDto) {
@@ -28,8 +31,7 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = new ProductEntity();
         BeanUtils.copyProperties(productDto, productEntity);
 
-        String publicId = UUID.randomUUID().toString();
-        productEntity.setPublicProductId(publicId);
+        productEntity.setPublicProductId(uuidGenerator.generate());
 
         ProductEntity createdEntity = productRepository.save(productEntity);
         BeanUtils.copyProperties(createdEntity, returnValue);
@@ -66,8 +68,8 @@ public class ProductServiceImpl implements ProductService {
         //if(productDto.getProductPrice()!=null) productEntity.setProductPrice(productDto.getProductPrice());
         //if(productDto.getQuantityOfStock()!=null) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
 
-        ProductEntity updatedUser = productRepository.save(productEntity);
-        BeanUtils.copyProperties(updatedUser, returnValue);
+        ProductEntity updatedProduct = productRepository.save(productEntity);
+        BeanUtils.copyProperties(updatedProduct, returnValue);
 
 
         return returnValue;

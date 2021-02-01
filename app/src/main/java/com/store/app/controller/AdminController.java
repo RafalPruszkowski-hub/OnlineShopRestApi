@@ -20,7 +20,7 @@ public class AdminController {
     @GetMapping(path = "/users/{publicUserId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public UserResponseModel getUser(@PathVariable(name = "publicUserId") String publicUserId) {
+    public UserResponseModel get(@PathVariable(name = "publicUserId") String publicUserId) {
         UserDto userDto = adminService.getUser(publicUserId);
 
         UserResponseModel returnValue = new UserResponseModel(userDto);
@@ -30,7 +30,7 @@ public class AdminController {
     }
 
     @GetMapping(path = "/users")
-    public ArrayList<UserResponseModel> getUsers(
+    public ArrayList<UserResponseModel> getList(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "25") int limit
     ) {

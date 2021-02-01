@@ -1,4 +1,4 @@
-package com.store.app.serviceImpl;
+package com.store.app.Util;
 
 import org.springframework.stereotype.Component;
 import java.util.UUID;

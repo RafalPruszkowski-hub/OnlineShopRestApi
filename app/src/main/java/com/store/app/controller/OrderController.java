@@ -23,7 +23,7 @@ public class OrderController {
     //create new order and create new cart for user that will be used from this point to add/remove products
     @PostMapping
     @RequestMapping("/order")
-    public OrderResponseModel createOrder(Principal principal) {
+    public OrderResponseModel create(Principal principal) {
         //Check if it's correct user
         String email = principal.getName();
 
@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders/{publicOrderId}")
-    public OrderResponseModel getOrder(@PathVariable(name = "publicOrderId") String publicOrderId,
+    public OrderResponseModel get(@PathVariable(name = "publicOrderId") String publicOrderId,
                                        Principal principal) {
         OrderDto orderDto = orderService.get(principal.getName(), publicOrderId);
 
@@ -46,7 +46,7 @@ public class OrderController {
     }
 
     @GetMapping(path = "/orders")
-    public List<OrderResponseModel> getOrders(Principal principal,
+    public List<OrderResponseModel> getList(Principal principal,
                                               @RequestParam(value = "page", defaultValue = "0") int page,
                                               @RequestParam(value = "limit", defaultValue = "25") int limit) {
         List<OrderDto> orderDtoList = orderService.getList(principal.getName(), page, limit);
