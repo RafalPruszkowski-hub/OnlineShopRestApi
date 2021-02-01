@@ -22,5 +22,18 @@ public class ProductResponseModel {
     public ProductResponseModel(ProductDto product) {
         BeanUtils.copyProperties(product, this);
     }
+
+    @Override
+    public String toString() {
+        return "ProductResponseModel{" +
+                "publicProductId='" + publicProductId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productBrand='" + productBrand + '\'' +
+                ", productModel='" + productModel + '\'' +
+                ", productDescription='" + productDescription + '\'' +
+                ", quantityOfStock=" + quantityOfStock +
+                ", productPrice=" + productPrice +
+                '}';
+    }
 }
 

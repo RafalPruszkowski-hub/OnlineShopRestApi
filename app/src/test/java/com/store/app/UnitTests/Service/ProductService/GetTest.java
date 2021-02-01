@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(ProductServiceImpl.class)
-public class ProductServiceGetTest {
+public class GetTest {
     @Autowired
     private ProductService productService;
     @Autowired

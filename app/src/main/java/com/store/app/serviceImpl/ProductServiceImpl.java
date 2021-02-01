@@ -5,6 +5,7 @@ import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.ProductDto;
 import com.store.app.exception.product.ProductNotFoundException;
+import com.store.app.mapper.UserMapper;
 import com.store.app.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,11 @@ import java.util.UUID;
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
     private UUIDGenerator uuidGenerator;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public ProductDto create(ProductDto productDto) {
@@ -51,22 +54,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto update(ProductDto productDto, String id) {
+    public ProductDto update(ProductDto productDto, String publicProductId) {
         ProductDto returnValue = new ProductDto();
 
-        ProductEntity productEntity = productRepository.findByPublicProductId(id);
+        ProductEntity productEntity = productRepository.findByPublicProductId(publicProductId);
         if (productEntity == null) throw new ProductNotFoundException();
 
+        // TODO Change that stuff
 
         if (productDto.getProductBrand() != null) productEntity.setProductBrand(productDto.getProductBrand());
-        if (productDto.getProductDescription() != null)
-            productEntity.setProductDescription(productDto.getProductDescription());
+        if (productDto.getProductDescription() != null) productEntity.setProductDescription(productDto.getProductDescription());
         if (productDto.getProductModel() != null) productEntity.setProductModel(productDto.getProductModel());
         if (productDto.getProductName() != null) productEntity.setProductName(productDto.getProductName());
-
-        //TODO MAKE THIS WORK LATER
-        //if(productDto.getProductPrice()!=null) productEntity.setProductPrice(productDto.getProductPrice());
-        //if(productDto.getQuantityOfStock()!=null) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
+        if(productDto.getProductPrice()!=0) productEntity.setProductPrice(productDto.getProductPrice());
+        if(productDto.getQuantityOfStock()!=0) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
 
         ProductEntity updatedProduct = productRepository.save(productEntity);
         BeanUtils.copyProperties(updatedProduct, returnValue);

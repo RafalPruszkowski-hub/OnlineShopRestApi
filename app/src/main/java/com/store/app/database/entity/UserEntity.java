@@ -77,4 +77,23 @@ public class UserEntity implements Serializable {
     public UserEntity(UserDto userDto) {
         BeanUtils.copyProperties(userDto, this);
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", publicUserId='" + publicUserId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", encryptedPassword='" + encryptedPassword + '\'' +
+                ", orders=" + orders +
+                ", cart=" + cart +
+                ", roles=" + roles +
+                '}';
+    }
+
 }

@@ -41,14 +41,14 @@ public class ProductController {
         return returnValue;
     }
 
-    @PutMapping(path = "/{productId}")
-    public ProductResponseModel update(@PathVariable(name = "productId") String productId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
+    @PutMapping(path = "/{publicProductId}")
+    public ProductResponseModel update(@PathVariable(name = "publicProductId") String publicProductId, @RequestBody ProductDetailsRequestModel productDetailsRequestModel) {
         ProductDto productDto = new ProductDto();
         BeanUtils.copyProperties(productDetailsRequestModel, productDto);
-        productDto.setPublicProductId(productId);
+        productDto.setPublicProductId(publicProductId);
 
 
-        ProductDto createdProduct = productService.update(productDto, productId);
+        ProductDto createdProduct = productService.update(productDto, publicProductId);
         ProductResponseModel returnValue = new ProductResponseModel(createdProduct);
 
         return returnValue;

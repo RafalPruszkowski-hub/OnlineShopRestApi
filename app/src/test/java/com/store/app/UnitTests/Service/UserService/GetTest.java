@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(UserServiceImpl.class)
-public class UserServiceGetTest {
+public class GetTest {
 
     @Autowired
     private UserService userService;
