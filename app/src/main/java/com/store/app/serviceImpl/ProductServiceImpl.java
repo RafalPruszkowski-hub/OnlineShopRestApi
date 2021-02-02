@@ -59,11 +59,12 @@ public class ProductServiceImpl implements ProductService {
         // TODO Change that stuff
 
         if (productDto.getProductBrand() != null) productEntity.setProductBrand(productDto.getProductBrand());
-        if (productDto.getProductDescription() != null) productEntity.setProductDescription(productDto.getProductDescription());
+        if (productDto.getProductDescription() != null)
+            productEntity.setProductDescription(productDto.getProductDescription());
         if (productDto.getProductModel() != null) productEntity.setProductModel(productDto.getProductModel());
         if (productDto.getProductName() != null) productEntity.setProductName(productDto.getProductName());
-        if(productDto.getProductPrice()!=0) productEntity.setProductPrice(productDto.getProductPrice());
-        if(productDto.getQuantityOfStock()!=0) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
+        if (productDto.getProductPrice() != 0) productEntity.setProductPrice(productDto.getProductPrice());
+        if (productDto.getQuantityOfStock() != 0) productEntity.setQuantityOfStock(productDto.getQuantityOfStock());
 
         ProductEntity updatedProduct = productRepository.save(productEntity);
         BeanUtils.copyProperties(updatedProduct, returnValue);

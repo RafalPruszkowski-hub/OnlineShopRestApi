@@ -20,7 +20,7 @@ public class UserPrincipal implements UserDetails {
         this.userEntity = userEntity;
     }
 
-    public UserPrincipal(String email){
+    public UserPrincipal(String email) {
         userEntity.setEmail(email);
     }
 

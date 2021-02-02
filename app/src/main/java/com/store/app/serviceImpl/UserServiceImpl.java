@@ -32,14 +32,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto create(UserDto userDto) {
-        if (userRepository.findByEmail(userDto.getEmail()) != null) throw new UserAlreadyExistException(userDto.getEmail());
+        if (userRepository.findByEmail(userDto.getEmail()) != null)
+            throw new UserAlreadyExistException(userDto.getEmail());
 
         UserEntity userEntity = userMapper.toEntity(userDto);
         userEntity.setPublicUserId(uuidGenerator.generate());
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         UserEntity storedUserDetails = userRepository.save(userEntity);
-        if(storedUserDetails==null) throw new CreatingUserErrorException();
+        if (storedUserDetails == null) throw new CreatingUserErrorException();
 
         cartService.create(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
-        UserEntity toSave = userMapper.applyChanges(userEntity,userDto);
+        UserEntity toSave = userMapper.applyChanges(userEntity, userDto);
         UserEntity updatedUser = userRepository.save(toSave);
 
         UserDto returnValue = userMapper.toDto(updatedUser);

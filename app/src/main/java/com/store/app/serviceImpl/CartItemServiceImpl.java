@@ -20,8 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class CartItemServiceImpl implements CartItemService {
     @Autowired
@@ -56,7 +54,7 @@ public class CartItemServiceImpl implements CartItemService {
         //creating entity that will be saved in database
         CartItemEntity cartItemEntity = new CartItemEntity(cartEntity, productEntity);
         BeanUtils.copyProperties(cartItemDto, cartItemEntity);
-        cartItemEntity.setPublicCartItemId(UUID.randomUUID().toString());
+        cartItemEntity.setPublicCartItemId(uuidGenerator.generate());
 
         cartItemEntity.setProductsPrice(productEntity.getProductPrice()
                 * cartItemDto.getQuantity());

@@ -37,7 +37,7 @@ public class OrderController {
 
     @GetMapping(path = "/orders/{publicOrderId}")
     public OrderResponseModel get(@PathVariable(name = "publicOrderId") String publicOrderId,
-                                       Principal principal) {
+                                  Principal principal) {
         OrderDto orderDto = orderService.get(principal.getName(), publicOrderId);
 
         OrderResponseModel returnValue = new OrderResponseModel(orderDto);
@@ -47,8 +47,8 @@ public class OrderController {
 
     @GetMapping(path = "/orders")
     public List<OrderResponseModel> getList(Principal principal,
-                                              @RequestParam(value = "page", defaultValue = "0") int page,
-                                              @RequestParam(value = "limit", defaultValue = "25") int limit) {
+                                            @RequestParam(value = "page", defaultValue = "0") int page,
+                                            @RequestParam(value = "limit", defaultValue = "25") int limit) {
         List<OrderDto> orderDtoList = orderService.getList(principal.getName(), page, limit);
 
         List<OrderResponseModel> returnValue = new ArrayList<>();

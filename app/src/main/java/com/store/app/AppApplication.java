@@ -24,7 +24,7 @@ public class AppApplication {
     }
 
     @Bean
-    public UUIDGenerator uuidGenerator(){
+    public UUIDGenerator uuidGenerator() {
         return new UUIDGenerator();
     }
 }
