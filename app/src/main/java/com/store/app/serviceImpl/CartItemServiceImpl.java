@@ -1,5 +1,6 @@
 package com.store.app.serviceImpl;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.CartItemEntity;
 import com.store.app.database.entity.ProductEntity;
@@ -24,19 +25,17 @@ import java.util.UUID;
 @Service
 public class CartItemServiceImpl implements CartItemService {
     @Autowired
-    CartItemRepository cartItemRepository;
-
+    private CartItemRepository cartItemRepository;
     @Autowired
-    ProductRepository productRepository;
-
+    private ProductRepository productRepository;
     @Autowired
-    CartService cartService;
-
+    private CartService cartService;
     @Autowired
-    CartRepository cartRepository;
-
+    private CartRepository cartRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    @Autowired
+    private UUIDGenerator uuidGenerator;
 
     @Override
     public CartItemDto create(String email, String publicProductId, CartItemDto cartItemDto) {

@@ -1,5 +1,6 @@
 package com.store.app.serviceImpl;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.OrderEntity;
 import com.store.app.database.entity.UserEntity;
@@ -30,21 +31,18 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
-
     @Autowired
     CartService cartService;
-
     @Autowired
     UserService userService;
-
     @Autowired
     ProductService productService;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     CartRepository cartRepository;
+    @Autowired
+    private UUIDGenerator uuidGenerator;
 
     @Override
     public OrderDto create(String email) {
@@ -61,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
         if (cartEntity == null) throw new CartNotFoundException();
 
         orderEntity.setCart(cartEntity);
-        orderEntity.setPublicOrderId(UUID.randomUUID().toString());
+        orderEntity.setPublicOrderId(uuidGenerator.generate());
 
         //Check if cart does not have more item then in stock
         checkIfEnoughItemsInStock(cartDto);

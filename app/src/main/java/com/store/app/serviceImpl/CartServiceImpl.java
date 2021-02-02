@@ -1,5 +1,6 @@
 package com.store.app.serviceImpl;
 
+import com.store.app.Util.UUIDGenerator;
 import com.store.app.database.entity.CartEntity;
 import com.store.app.database.entity.CartItemEntity;
 import com.store.app.database.entity.OrderEntity;
@@ -27,13 +28,15 @@ import java.util.UUID;
 @Service
 public class CartServiceImpl implements CartService {
     @Autowired
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    CartItemRepository cartItemRepository;
+    private CartItemRepository cartItemRepository;
     @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
+    @Autowired
+    private UUIDGenerator uuidGenerator;
 
     @Override
     public CartDto getOnPublicUserId(String publicUserId) {
@@ -42,7 +45,7 @@ public class CartServiceImpl implements CartService {
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
         if (userEntity == null) throw new UserNotFoundException(publicUserId);
 
-        int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
+        int cartId = cartRepository.getCurrentCartIdForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
         if (cartEntity == null) throw new CartNotFoundException();
 
@@ -78,7 +81,7 @@ public class CartServiceImpl implements CartService {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
-        int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
+        int cartId = cartRepository.getCurrentCartIdForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
         if (cartEntity == null) throw new CartNotFoundException();
 
@@ -111,11 +114,10 @@ public class CartServiceImpl implements CartService {
     //SOMEHOW NOT WORKING FIX IT PLS
     @Override
     public void updateTotalPrice(String publicUserId, double price) {
-
         UserEntity userEntity = userRepository.findByPublicUserId(publicUserId);
         if (userEntity == null) throw new UserNotFoundException(publicUserId);
 
-        int cartId = cartRepository.getCurrentCartEntityForUser(userEntity.getUserId());
+        int cartId = cartRepository.getCurrentCartIdForUser(userEntity.getUserId());
         CartEntity cartEntity = cartRepository.findByCartId(cartId);
         if (cartEntity == null) throw new CartNotFoundException();
 
@@ -149,7 +151,7 @@ public class CartServiceImpl implements CartService {
         if (userEntity == null) throw new UserNotFoundException();
 
         CartEntity cartEntity = new CartEntity(userEntity);
-        cartEntity.setPublicCartId(UUID.randomUUID().toString());
+        cartEntity.setPublicCartId(uuidGenerator.generate());
 
         CartEntity storedCart = cartRepository.save(cartEntity);
         BeanUtils.copyProperties(storedCart, returnValue);

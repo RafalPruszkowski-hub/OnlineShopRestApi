@@ -7,6 +7,7 @@ import com.store.app.dto.UserDto;
 import com.store.app.exception.user.CreatingUserErrorException;
 import com.store.app.exception.user.UserAlreadyExistException;
 import com.store.app.exception.user.UserNotFoundException;
+import com.store.app.mapper.UserMapper;
 import com.store.app.security.UserPrincipal;
 import com.store.app.service.CartService;
 import com.store.app.service.UserService;
@@ -19,22 +20,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
     @Autowired
-    CartService cartService;
-
+    private CartService cartService;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    UUIDGenerator uuidGenerator;
+    private UUIDGenerator uuidGenerator;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public UserDto create(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()) != null) throw new UserAlreadyExistException(userDto.getEmail());
 
-        UserEntity userEntity = new UserEntity(userDto);
+        UserEntity userEntity = userMapper.toEntity(userDto);
         userEntity.setPublicUserId(uuidGenerator.generate());
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
 
         cartService.create(storedUserDetails.getPublicUserId());//creating cart for user while creating new user
 
-        UserDto returnValue = new UserDto(storedUserDetails);
-
+        UserDto returnValue = userMapper.toDto(storedUserDetails);
         return returnValue;
     }
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
-        UserDto returnValue = new UserDto(userEntity);
+        UserDto returnValue = userMapper.toDto(userEntity);
         return returnValue;
     }
 
@@ -63,21 +62,11 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) throw new UserNotFoundException();
 
-        applyChanges(userDto,userEntity);
+        UserEntity toSave = userMapper.applyChanges(userEntity,userDto);
+        UserEntity updatedUser = userRepository.save(toSave);
 
-        UserEntity updatedUser = userRepository.save(userEntity);
-        UserDto returnValue = new UserDto(updatedUser);
-
+        UserDto returnValue = userMapper.toDto(updatedUser);
         return returnValue;
-    }
-
-    private void applyChanges(UserDto userDto, UserEntity userEntity) {
-        if (userDto.getFirstName() != null) userEntity.setFirstName(userDto.getFirstName());
-        if (userDto.getLastName() != null) userEntity.setLastName(userDto.getLastName());
-        if (userDto.getAddress() != null) userEntity.setAddress(userDto.getAddress());
-        if (userDto.getCity() != null) userEntity.setCity(userDto.getCity());
-        if (userDto.getTelephone() != null) userEntity.setTelephone(userDto.getTelephone());
-        if (userDto.getEmail() != null) userEntity.setEmail(userDto.getEmail());
     }
 
     @Override

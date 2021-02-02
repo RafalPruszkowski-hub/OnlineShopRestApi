@@ -5,7 +5,6 @@ import com.store.app.database.entity.ProductEntity;
 import com.store.app.database.repository.ProductRepository;
 import com.store.app.dto.ProductDto;
 import com.store.app.exception.product.ProductNotFoundException;
-import com.store.app.mapper.UserMapper;
 import com.store.app.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -24,8 +22,6 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private UUIDGenerator uuidGenerator;
-    @Autowired
-    private UserMapper userMapper;
 
     @Override
     public ProductDto create(ProductDto productDto) {

@@ -115,13 +115,4 @@ public class CreateTest {
             userService.create(userDto);
         });
     }
-
-    @Test
-    public void createUser_creatingError() {
-        init();
-        when(userRepository.findByEmail(email)).thenReturn(null);
-        assertThrows(CreatingUserErrorException.class, () -> {
-            userService.create(userDto);
-        });
-    }
 }

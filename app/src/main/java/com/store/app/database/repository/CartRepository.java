@@ -15,5 +15,5 @@ public interface CartRepository extends CrudRepository<CartEntity, Integer> {
 
     // Find cart that is currently used by user
     @Query(value = "SELECT MAX(cart_id) FROM carts where user_Id =:userId", nativeQuery = true)
-    Integer getCurrentCartEntityForUser(@Param("userId") int userId);
+    Integer getCurrentCartIdForUser(@Param("userId") int userId);
 }
